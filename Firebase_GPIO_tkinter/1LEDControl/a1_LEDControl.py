@@ -8,7 +8,8 @@ import threading
 
 
 class App:
-    led = LED(25); 
+    led = LED(25);
+    led1= LED(17);
     ledState = "";
     firebase_url = "https://raspberryfirebase.firebaseio.com/";
     def __init__(self,master):
@@ -40,8 +41,7 @@ class App:
         result = requests.put(self.firebase_url + "/" + "raspberrypi/LED_Control.json",data=json.dumps(data));
         print("status code = %s, Response =%s" % (str(result.status_code),result.text));
 
-    def getFirebaseData(self):
-        threading.Timer(0.5,self.getFirebaseData).start();        
+    def getFirebaseData(self):                
         r = requests.get(self.firebase_url + "/" + "raspberrypi/LED_Control.json");
         if r.status_code == 200:            
             self.ledState = r.json()["LED25"];
@@ -52,6 +52,7 @@ class App:
                     print("status:close");
                     self.led.off();
                     self.ledText.set("LED OPEN");
+        threading.Timer(0.1,self.getFirebaseData).start();
                     
                     
 
