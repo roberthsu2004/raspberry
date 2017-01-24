@@ -18,14 +18,13 @@
 
     <!-- Custom styles for this template -->
     <link href="navbar-static-top.css" rel="stylesheet">
+    
+    <!--jquery UI-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
       
     <!-- Custom styles for this page -->
       <style type="text/css">
-          .btn {
-              font-size:30px;
-              padding:6px 30px;
-          }
-          
+                    
           .jumbotron h1 {
               margin-bottom: 30px;
               color: darkgray;
@@ -35,6 +34,13 @@
               color: darkgray;
               margin-bottom: 20px;
           }
+          .jumbotron .badge,.jumbotron a{
+              font-size:30px;
+          }
+          .jumbotron #slider{
+              margin-top:30px;
+          }
+          
       </style>
       
 
@@ -93,6 +99,8 @@
       <div class="jumbotron">
         <h1>PWM_LED</h1>
         <h3>LED明亮狀態(GPIO25)</h3>
+        <a href="#">明亮值：<span class="badge">42</span></a>
+        <div id="slider"></div>
         
       </div>
 
@@ -120,41 +128,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
-           function writeLedState(ledState){
-                database.ref("raspberrypi/LED_Control").set({
-                    LED25:ledState,
-                    date:"2017"
+        $(document).ready(function(){
+            $("#slider").slider({
+                change: function(event,ui){
+                    console.log(ui.value.toString());
+                    $(".jumbotron .badge").html(ui.value.toString());
+                    database.ref("raspberrypi/PWM_Led").set({
+                        "pwm_value":ui.value
+                    });
+                }
+            });
+            
+            var pwmLed = database.ref("raspberrypi/PWM_Led");
+            pwmLed.on('value',function(snapshop){
+                var pwmValue = snapshop.val()["pwm_value"];
+                $(".jumbotron .badge").html(pwmValue.toString());
+                $("#slider").slider({
+                    value:pwmValue
                 });
-           }
+            });
+        });
         
-               
-          $(document).ready(function(){
-                 var openBtn = $("#openBtn");
-                 var closeBtn = $("#closeBtn");
-                 var ledControl = database.ref("raspberrypi/LED_Control");
-                 ledControl.on("value",function(snapshot){                        
-                        var led25Value = snapshot.val().LED25;
-                        if(led25Value == "OPEN"){
-                            openBtn.removeClass().addClass("btn").addClass("btn-danger");
-                            closeBtn.removeClass().addClass("btn");
-                        }else{
-                             openBtn.removeClass().addClass("btn");
-                            closeBtn.removeClass().addClass("btn").addClass("btn-danger");
-                        }
-                 });
-                 
-                openBtn.bind("click",function(event){
-                    writeLedState("OPEN");
-                });
-                
-                closeBtn.bind("click",function(event){
-                    writeLedState("CLOSE");
-                });
-          });
-      </script>
+    </script>
    
   </body>
 </html>
