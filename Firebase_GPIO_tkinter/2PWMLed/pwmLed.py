@@ -21,7 +21,8 @@ class App:
         subFrame = Frame(mainFrame,relief=GROOVE,borderwidth=2);
         customFont = font.Font(family="Helvetica",size=12);        
         title = Label(mainFrame,text="PWM_LED").place(relx=0.05,rely=0.01,anchor=NW);
-        self.scale = Scale(subFrame,orient=HORIZONTAL, from_=0, to=100,tickinterval=10,font=customFont,command=self.userUpdateValue);
+        self.scaleValue = IntVar();
+        self.scale = Scale(subFrame,orient=HORIZONTAL, from_=0, to=100,tickinterval=10,font=customFont,command=self.userUpdateValue,variable=self.scaleValue);
         
         self.scale.pack(fill=X,expand=YES,padx=20);        
         subFrame.pack(fill=BOTH,expand=YES,padx=20,pady=20);
@@ -47,6 +48,7 @@ class App:
             if  value != self.__currentLedValue:
                 self.__currentLedValue = value;
                 self.led.value = value/100;
+                self.scaleValue.set(value);
                
         except:
             return;
