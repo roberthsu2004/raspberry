@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
-    <title>LED Control</title>
+    <title>RGB_LED</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -18,14 +18,13 @@
 
     <!-- Custom styles for this template -->
     <link href="navbar-static-top.css" rel="stylesheet">
+    
+    <!--jquery UI-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
       
     <!-- Custom styles for this page -->
       <style type="text/css">
-          .btn {
-              font-size:30px;
-              padding:6px 30px;
-          }
-          
+                    
           .jumbotron h1 {
               margin-bottom: 30px;
               color: darkgray;
@@ -35,6 +34,13 @@
               color: darkgray;
               margin-bottom: 20px;
           }
+          .jumbotron .badge,.jumbotron a{
+              font-size:30px;
+          }
+          .jumbotron #slider{
+              margin-top:30px;
+          }
+          
       </style>
       
 
@@ -46,7 +52,7 @@
     <![endif]-->
   </head>
   <body>
-   <!-- Static navbar -->
+  <!-- Static navbar -->
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div class="navbar-header">
@@ -61,9 +67,9 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="#">Home</a></li>
-            <li class="active"><a href="ledControl.html">LEDControll</a></li>
+            <li><a href="ledControl.html">LEDControll</a></li>
             <li><a href="pwmled.html">PWM_LED</a></li>
-            <li><a href="rgbled.html">RGB_LED</a></li>
+            <li class="active"><a href="rgbled.html">RGB_LED</a></li>
           </ul>
             <!--
           <ul class="nav navbar-nav navbar-right">
@@ -80,12 +86,20 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>LED Control</h1>
-        <h3>LED狀態(GPIO25)</h3>
-        <div class="btn-group" role="group" aria-label="...">
-            <button id="openBtn" type="button" class="btn btn-danger">OPEN</button>
-            <button id="closeBtn" type="button" class="btn btn-default">CLOSE</button>            
-        </div>       
+        <h1>RGB_LED</h1>
+        <h3>RGB顏色狀態</h3>
+        <a href="#">Red：<span class="redBadge">42</span></a>
+        <div id="redSlider"></div>
+        <br/>
+        <br/>
+        <a href="#">Green：<span class="greenBadge">42</span></a>
+        <div id="greenSlider"></div>
+        <br/>
+        <br/>          
+        <a href="#">Blue：<span class="blueBadge">42</span></a>
+        <div id="blueSlider"></div>
+        <br/>
+        <br/>
       </div>
 
     </div> <!-- /container -->
@@ -112,41 +126,72 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
     <script>
-           function writeLedState(ledState){
-                database.ref("raspberrypi/LED_Control").set({
-                    LED25:ledState,
-                    date:"2017"
+        $(document).ready(function(){
+            $("#redSlider").slider({
+                min:0,
+                max:255,
+                value:1,
+                change: function(event,ui){
+                    console.log(ui.value.toString());
+                    $(".jumbotron .redBadge").html(ui.value.toString());
+                    database.ref("raspberrypi/RGB_LED").update({
+                        "red":ui.value
+                    });
+                }
+            });
+            
+            $("#greenSlider").slider({
+                min:0,
+                max:255,
+                value:1,
+                change: function(event,ui){                    
+                    console.log(ui.value.toString());
+                    $(".jumbotron .greenBadge").html(ui.value.toString());
+                    database.ref("raspberrypi/RGB_LED").update({
+                        "green":ui.value
+                    });
+                }
+            });
+            
+            $("#blueSlider").slider({
+                min:0,
+                max:255,
+                value:1,
+                change: function(event,ui){
+                    console.log(ui.value.toString());
+                    $(".jumbotron .blueBadge").html(ui.value.toString());
+                    database.ref("raspberrypi/RGB_LED").update({
+                        "blue":ui.value
+                    });
+                }
+            });
+            
+            var rgbLed = database.ref("raspberrypi/RGB_LED");
+            rgbLed.on('value',function(snapshop){
+                var blueValue = snapshop.val()["blue"];
+                var greenValue = snapshop.val()["green"];
+                var redValue = snapshop.val()["red"];
+                $(".jumbotron .redBadge").html(redValue.toString());
+                $(".jumbotron .greenBadge").html(greenValue.toString());
+                $(".jumbotron .blueBadge").html(blueValue.toString());
+                $("#redSlider").slider({
+                    "value":redValue
                 });
-           }
-        
-               
-          $(document).ready(function(){
-                 var openBtn = $("#openBtn");
-                 var closeBtn = $("#closeBtn");
-                 var ledControl = database.ref("raspberrypi/LED_Control");
-                 ledControl.on("value",function(snapshot){                        
-                        var led25Value = snapshot.val().LED25;
-                        if(led25Value == "OPEN"){
-                            openBtn.removeClass().addClass("btn").addClass("btn-danger");
-                            closeBtn.removeClass().addClass("btn");
-                        }else{
-                             openBtn.removeClass().addClass("btn");
-                            closeBtn.removeClass().addClass("btn").addClass("btn-danger");
-                        }
-                 });
-                 
-                openBtn.bind("click",function(event){
-                    writeLedState("OPEN");
+                $("#greenSlider").slider({
+                    "value":greenValue
+                });
+                $("#blueSlider").slider({
+                    "value":blueValue
                 });
                 
-                closeBtn.bind("click",function(event){
-                    writeLedState("CLOSE");
-                });
-          });
-      </script>
+            });
+        });
+        
+    </script>
    
   </body>
 </html>
