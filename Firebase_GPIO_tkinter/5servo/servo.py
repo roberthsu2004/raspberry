@@ -58,12 +58,13 @@ class App:
             distance = self.hr04.getCmDistance();
             if distance != None:                
                 self.distanceValue.set("distance:%d" % distance);
-            passData = {"distance":distance};
-            request = requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
+                passData = {"distance":distance};
+                request = requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
+            
             getJson = requests.get(self.firebase_url + "/raspberrypi/servo.json").json();
             angle = getJson["angle"];
             self.valueVariable.set(angle);
-            self.servo.angel = angle;
+            self.servo.angel = int(angle);
          except:
             pass;
             
