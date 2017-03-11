@@ -11,20 +11,25 @@ class App:
         self.master = master;
         self.firebase_url = "https://raspberryfirebase.firebaseio.com";
         self.angleValue = 0;
+        self.distanceValue = StringVar();
+        self.valueVariable = IntVar();
+
+        #for gpio servo initial
+        self.servo = AngularServo(18,min_angle=0,max_angle=90);
+        self.servo.angle = 0;
+        
         #HR04
         self.hr04 = HR04(23,24);
         self.distanceHandler();
         
-        #for gpio servo initial
-        self.servo = AngularServo(18,min_angle=0,max_angle=90);
-        self.servo.angle = 90;
+        
         #for tk
         
         mainFrame = Frame(self.master);
         servoFrame = Frame(mainFrame);
         borderFrame = Frame(servoFrame,borderwidth=2,relief=GROOVE,pady=30,padx=10);        
         Label(servoFrame,text="Servo").place(relx=0.03,anchor=NW);
-        self.valueVariable = IntVar();
+        
         self.button0 = Radiobutton(borderFrame,text="0",variable=self.valueVariable,value=0,indicatoron=0,padx=20,command=self.changeDegree).pack(side=LEFT,padx=20);
         self.button25 = Radiobutton(borderFrame,text="25",variable=self.valueVariable,value=25,indicatoron=0,padx=20,command=self.changeDegree).pack(side=LEFT,padx=20);
         self.button50 = Radiobutton(borderFrame,text="50",variable=self.valueVariable,value=50,indicatoron=0,padx=20,command=self.changeDegree).pack(side=LEFT,padx=20);
@@ -36,7 +41,7 @@ class App:
         servoFrame.pack(side=TOP);
         
         distanceFrame = Frame(mainFrame);
-        self.distanceValue = StringVar();
+        
         self.label = Label(distanceFrame,textvariable=self.distanceValue);
         self.distanceValue.set("distance:0cm");
         self.label.pack();
@@ -47,14 +52,12 @@ class App:
         return "servo control and HR04 distance"
     
     def changeDegree(self):
-        self.angleValue = self.valueVariable.get();
-        #self.servo.angle = value;
+        self.angleValue = self.valueVariable.get();        
         passData = {"angle":self.angleValue};
         request = requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
 
     def distanceHandler(self):
-         try:
-            self.hr04 = HR04(23,24);
+         #try:            
             distance = self.hr04.getCmDistance();
             if distance != None:                
                 self.distanceValue.set("distance:%d" % distance);
@@ -63,12 +66,13 @@ class App:
             
             getJson = requests.get(self.firebase_url + "/raspberrypi/servo.json").json();
             angle = getJson["angle"];
-            self.valueVariable.set(angle);
-            self.servo.angel = int(angle);
-         except:
+            self.valueVariable.set(angle);            
+            self.servo.angle = float(angle);
+            print(self.servo);
+         #except:
             pass;
             
-         self.master.after(1000,self.distanceHandler);
+            self.master.after(1000,self.distanceHandler);
         
         
 
