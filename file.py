@@ -1,12 +1,9 @@
-from gpiozero import LED
-from time import sleep
-
-led = LED(4);
-
-while True:
-    led.on();
-    sleep(1);
-    print("on");
-    led.off();
-    sleep(1);
-    print("off");
+>>> from gpiozero import LED
+>>> led = LED(26)
+>>> led.on()
+>>> led.off()
+>>> led.toggle();
+>>> led.toggle();
+>>> led.blink(1,1,3,True)
+>>> led.blink(0.3,0.3,100,True)
+>>> 
