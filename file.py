@@ -1,14 +1,22 @@
-Python 3.4.2 (default, Oct 19 2014, 13:31:11) 
-[GCC 4.9.1] on linux
-Type "copyright", "credits" or "license()" for more information.
->>> "20" * 9
-'202020202020202020'
->>> int("20") * 9
-180
->>> int("21") * 9 / 5
-37.8
->>> int("21") * 9 / 5 + 32
-69.8
->>> 2 ** 8
-256
+>>> s = "name\tage\nMatt\t14"
+>>> print(s)
+name	age
+Matt	14
+>>> s1 = "abc";
+>>> s2 = "def"
+>>> s = s1 + s2
+>>> print(s)
+abcdef
+>>> s1 + 12
+Traceback (most recent call last):
+  File "<pyshell#13>", line 1, in <module>
+    s1 + 12
+TypeError: Can't convert 'int' object to str implicitly
+>>> "123" + 123
+Traceback (most recent call last):
+  File "<pyshell#14>", line 1, in <module>
+    "123" + 123
+TypeError: Can't convert 'int' object to str implicitly
+>>> int("123") + 123
+246
 >>> 
