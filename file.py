@@ -1,22 +1,27 @@
->>> s = "name\tage\nMatt\t14"
->>> print(s)
-name	age
-Matt	14
->>> s1 = "abc";
->>> s2 = "def"
->>> s = s1 + s2
->>> print(s)
-abcdef
->>> s1 + 12
-Traceback (most recent call last):
-  File "<pyshell#13>", line 1, in <module>
-    s1 + 12
-TypeError: Can't convert 'int' object to str implicitly
->>> "123" + 123
-Traceback (most recent call last):
-  File "<pyshell#14>", line 1, in <module>
-    "123" + 123
-TypeError: Can't convert 'int' object to str implicitly
 >>> int("123") + 123
 246
+>>> str(123)
+'123'
+>>> int("-123")
+-123
+>>> float("00123.45");
+123.45
+>>> int("1001",2)
+9
+>>> int("AFF0", 16)
+45040
+>>> len("abcdef")
+6
+>>> s = "abcdefghi";
+>>> s.find("def")
+3
+>>> s = "abcdefghi"
+>>> s[1:5]
+'bcde'
+>>> s[0:5]
+'abcde'
+>>> s[:5]
+'abcde'
+>>> s[3:]
+'defghi'
 >>> 
