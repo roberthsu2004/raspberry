@@ -1,15 +1,14 @@
-x = 101;
-if x > 100:
-    print("x is big");
-else:
-    print("x is small");
-print("This will always print");
+x = 17
+if x >= 10 and x <= 20:
+    print("x is in the middle");
 
 
-x = 90;
-if x > 100:
-    print("x is big");
-elif x < 10:
-    print("x is small");
-else:
-    print("x is medium");
+for i in range(1,11):
+    print(i);
+
+
+answer = '';
+while answer != 'X':
+    answer = input("Enter command:");
+
+
