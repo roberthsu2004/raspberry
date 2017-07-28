@@ -1,19 +1,4 @@
-from gpiozero import Button
-from signal import pause
-
-def say_hello():
-    print("Hello!")
-
-def say_goodbye():
-    print("Goodbye!")
-
-button = Button(2)
-
-button.when_pressed = say_hello
-button.when_released = say_goodbye
-
-pause()
-
-
-
-https://raspberryfirebase.firebaseio.com/
+import requests
+content = requests.get("https://raspberryfirebase.firebaseio.com/test/lcd.json", verify=False)
+print("status code:",content.status_code);
+print("json:",content.json());
