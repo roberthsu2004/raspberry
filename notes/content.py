@@ -1,31 +1,59 @@
->>> s = "It was the best of X. It was the worst of X"
->>> s.replace("X","times");
-'It was the best of times. It was the worst of times'
->>> "aBcDe".upper()
-'ABCDE'
->>> "aBcDe".lower();
-'abcde'
->>> x = 101
->>> if x > 100:
-	print("x is big");
-	print("y is big");
+Python 3.4.2 (default, Oct 19 2014, 13:31:11) 
+[GCC 4.9.1] on linux
+Type "copyright", "credits" or "license()" for more information.
+>>> <
+SyntaxError: invalid syntax
+>>> >
+SyntaxError: invalid syntax
+>>> <=
+SyntaxError: invalid syntax
+>>> >=
+SyntaxError: invalid syntax
+>>> ==
+SyntaxError: invalid syntax
+>>> !=
+SyntaxError: invalid syntax
+>>> 1 != 2
+True
+>>> 1 != 1
+False
+>>> x = 17
+>>> if x >= 10 and x <=20:
+	print("x is in the middle");
 
-x is big
-y is big
->>> x = 101'
-SyntaxError: EOL while scanning string literal
->>> x = 101
->>> if x > 100:
-	print("x is big");
-else:
-	print("x is small");
+	
+x is in the middle
+>>> for i in range(1,11):
+	print(i);
 
-x is big
+	
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+>>> answer = ''
+>>> while answer != 'X':
+	answer = input("enter command:");
+
+	
+enter command:5
+enter command:6
+enter command:X
+>>> while True:
+	answer = input('Enter command:');
+	if answer == 'X':
+		break;
+
+	
+Enter command:4
+Enter command:6
+Enter command:9
+Enter command:X
 >>> 
->>> x = 90
->>> if x > 100:
-	print("x is big");
-elif x < 10:
-	print("x is small");
-else:
-	print("x is medium");
+>>> 
