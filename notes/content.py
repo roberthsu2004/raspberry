@@ -1,18 +1,31 @@
-Python 3.4.2 (default, Oct 19 2014, 13:31:11) 
-[GCC 4.9.1] on linux
-Type "copyright", "credits" or "license()" for more information.
->>> len("abcdef")
-6
->>> s = "abcdefghi"
->>> s.find("def")
-3
->>> s = "abcdefghi";
->>> s[1:5]
-'bcde'
->>> s[:5];
+>>> s = "It was the best of X. It was the worst of X"
+>>> s.replace("X","times");
+'It was the best of times. It was the worst of times'
+>>> "aBcDe".upper()
+'ABCDE'
+>>> "aBcDe".lower();
 'abcde'
->>> s[3:];
-'defghi'
->>> "myFile.txt"[-3:]
-'txt'
+>>> x = 101
+>>> if x > 100:
+	print("x is big");
+	print("y is big");
+
+x is big
+y is big
+>>> x = 101'
+SyntaxError: EOL while scanning string literal
+>>> x = 101
+>>> if x > 100:
+	print("x is big");
+else:
+	print("x is small");
+
+x is big
 >>> 
+>>> x = 90
+>>> if x > 100:
+	print("x is big");
+elif x < 10:
+	print("x is small");
+else:
+	print("x is medium");
