@@ -1,13 +1,18 @@
-s = "name\tage\nMatt\t14";
-print(s);
-
-s1 = "abc";
-s2 = "def";
-s = s1 + s2;
-print(s);
-
-print("abc" + str(23));
-
-print(int("-123"));
-print(float("00123.45"));
-
+Python 3.4.2 (default, Oct 19 2014, 13:31:11) 
+[GCC 4.9.1] on linux
+Type "copyright", "credits" or "license()" for more information.
+>>> len("abcdef")
+6
+>>> s = "abcdefghi"
+>>> s.find("def")
+3
+>>> s = "abcdefghi";
+>>> s[1:5]
+'bcde'
+>>> s[:5];
+'abcde'
+>>> s[3:];
+'defghi'
+>>> "myFile.txt"[-3:]
+'txt'
+>>> 
