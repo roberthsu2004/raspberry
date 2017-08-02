@@ -1,4 +1,3 @@
-https://code.visualstudio.com/
-  
-x=1.2345678
-print("x={:.2f}".format(x));
+from datetime import datetime
+d = datetime.now();
+print("{:%Y-%m-%d %H:%M:%S}".format(d));
