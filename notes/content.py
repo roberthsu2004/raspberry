@@ -11,3 +11,14 @@ def calculate_temperatures(kelvin):
 (c,f) = calculate_temperatures(340);
 print("celsius:",c);
 print("fahrenheit",f);
+
+class Person:
+    ''' This class represents a person object'''
+
+    def __init__(self,name,tel):
+        self.name = name;
+        self.tel = tel;
+
+p = Person("robert","12345");
+print("p.name:",p.name);
+print("p.tel:",p.tel);
