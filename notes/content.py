@@ -37,3 +37,17 @@ class Person1:
 
 pe =Person1("robert","hsu","12345");
 print("full_name",pe.full_name());
+
+class Employee(Person1):
+    def __init__(self,first_name,surname,tel,salary):
+        super().__init__(first_name,surname,tel);
+        self.salary = salary;
+
+    def give_raise(self,amount):
+        self.salary = self.salary + amount
+
+
+employee = Employee("jane","hsu","5678",20000);
+employee.give_raise(5000);
+print(employee.salary);
+print(employee.full_name());
