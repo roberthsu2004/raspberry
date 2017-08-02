@@ -22,3 +22,18 @@ class Person:
 p = Person("robert","12345");
 print("p.name:",p.name);
 print("p.tel:",p.tel);
+
+
+class Person1:
+    '''This class repersents a person object'''
+
+    def __init__(self,first_name,surname,tel):
+        self.first_name = first_name;
+        self.surname = surname;
+        self.tel = tel;
+
+    def full_name(self):
+        return self.first_name + " " + self.surname;
+
+pe =Person1("robert","hsu","12345");
+print("full_name",pe.full_name());
