@@ -1,4 +1,4 @@
-{
+{"raspberrypi":{
   "LED_Control" : {
     "LED25" : "OPEN",
     "date" : "2017"
@@ -19,4 +19,5 @@
     "angle" : 75,
     "distance" : 180
   }
+}
 }
