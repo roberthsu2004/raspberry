@@ -3,6 +3,8 @@ import requests
 import json
 from gpiozero import LED
 import threading
+import datetime
+import time
 
 class App:
     led = LED(25);
@@ -23,7 +25,17 @@ class App:
         self.getFirebaseData();
     
     def userClick(self):
-        print("userClick");
+       if self.led.is_lit == True:
+           self.ledState = "CLOSE";
+       else:
+           self.ledState = "OPEN";
+
+       t = time.time();
+       date = datetime.datetime.fromtimestamp(t).strftime("%Y-%m-%d-%H-%M-%S");
+       data = {'date':date,'LED25':self.ledState};
+       result = requests.put(self.firebase_url + "raspberrypi/LED_Control.json",data=json.dumps(data));
+       print("status code =%s, Response=%s" % (str(result.status_code),result.text));
+       
 
     def getFirebaseData(self):
         r = requests.get(self.firebase_url + "raspberrypi/LED_Control.json");
