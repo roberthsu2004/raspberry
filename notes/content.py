@@ -7,7 +7,8 @@ class App:
         self.ledText = StringVar();
         f = Frame(master);
         xf = Frame(f,relief=GROOVE,borderwidth=2);
-        xf.pack(fill=BOTH,expand=YES,padx=20,pady=20);
+        titleLabel = Label(f,text="LED control").place(relx=0.05,rely=0.025,anchor=NW);
+        xf.pack(fill=BOTH,expand=20, padx=20,pady=20);
         f.pack(fill=BOTH,expand=YES);
 
 root = Tk();
