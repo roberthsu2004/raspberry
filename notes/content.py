@@ -1,6 +1,10 @@
 from tkinter import *
+import requests
+import json
 
 class App:
+    firebase_url = "https://raspberryfirebase.firebaseio.com"
+    __job = None;
     def __init__(self,master):
         self.master = master;
         mainFrame = Frame(master);
@@ -14,7 +18,17 @@ class App:
         mainFrame.pack(fill=BOTH,expand=YES);
 
     def userUpdateValue(self,event):
-        print("userUpdate")
+       print("user update");
+       if self.__job:
+           self.master.after_cancel(self.__job);
+       self.__job = self.master.after(100,self.__do_something);
+
+    def __do_something(self):
+        print("user dosomething");
+        getData = {"pwm_value":self.scale.get()};
+        requests.put(self.firebase_url + "/raspberrypi/PWM_Led.json",data=json.dumps(getData));
+        
+        self.__job = None;
 
 root = Tk();
 root.title("PWMLED");
