@@ -1,61 +1,56 @@
-from gpiozero import PWMLED
-from time import sleep
 from tkinter import *
 import requests
 import json
 import threading
-
+from gpiozero import PWMLED
 
 class App:
-    firebase_url = "https://raspberryfirebase.firebaseio.com";
+    firebase_url = "https://raspberryfirebase.firebaseio.com"
     __job = None;
-    __currentLedValue=0;
     __pin = 25;
     def __init__(self,master):
-        '''initital led'''
+        '''initial gpio'''
         self.led = PWMLED(self.__pin);
         self.led.value = 0;
-        '''initial tkinter'''
+        '''initial layout'''
         self.master = master;
         mainFrame = Frame(master);
         subFrame = Frame(mainFrame,relief=GROOVE,borderwidth=2);
-        customFont = font.Font(family="Helvetica",size=12);        
         title = Label(mainFrame,text="PWM_LED").place(relx=0.05,rely=0.01,anchor=NW);
         self.scaleValue = IntVar();
-        self.scale = Scale(subFrame,orient=HORIZONTAL, from_=0, to=100,tickinterval=10,font=customFont,command=self.userUpdateValue,variable=self.scaleValue);
-        
-        self.scale.pack(fill=X,expand=YES,padx=20);        
+        smallFont = font.Font(family="Helvetica",size=12);
+        self.scale = Scale(subFrame,orient=HORIZONTAL, from_=0, to=100,tickinterval=10,font=smallFont,command=self.userUpdateValue,variable=self.scaleValue);
+        self.scale.pack(fill=X,expand=YES,padx=20);
         subFrame.pack(fill=BOTH,expand=YES,padx=20,pady=20);
         mainFrame.pack(fill=BOTH,expand=YES);
         self.getDataFromFirebase();
 
     def userUpdateValue(self,event):
-        if self.__job:
-            self.master.after_cancel(self.__job);
-        self.__job = self.master.after(500,self.__do_something);
-        
+       print("user update");
+       if self.__job:
+           self.master.after_cancel(self.__job);
+       self.__job = self.master.after(100,self.__do_something);
 
     def __do_something(self):
-        self.__jon = None;
+        print("user dosomething");
         getData = {"pwm_value":self.scale.get()};
-        requests.put(self.firebase_url + "/" + "raspberrypi/PWM_Led.json",data=json.dumps(getData));
+        requests.put(self.firebase_url + "/raspberrypi/PWM_Led.json",data=json.dumps(getData));
+        
+        self.__job = None;
 
-    def getDataFromFirebase(self):        
-        r = requests.get(self.firebase_url + "/raspberrypi/PWM_Led.json");
+    def getDataFromFirebase(self):
+        response = requests.get(self.firebase_url + "/raspberrypi/PWM_Led.json");
         try:
-            receiveData = r.json();
+            receiveData = response.json();
             value = receiveData["pwm_value"];
-            if  value != self.__currentLedValue:
-                self.__currentLedValue = value;
-                self.led.value = value/100;
-                self.scaleValue.set(value);
-               
+            self.led.value = value/100;
+            self.scaleValue.set(value);
         except:
+            print("run except");
+            threading.Timer(0.2,self.getDataFromFirebase).start();
             return;
-        
-        threading.Timer(1,self.getDataFromFirebase).start();
-        
-        
+
+        threading.Timer(0.2,self.getDataFromFirebase).start();
 
 root = Tk();
 root.title("PWMLED");
@@ -65,4 +60,3 @@ root.option_add("*background","gold");
 root.option_add("*foreground","#888888");
 display = App(root);
 root.mainloop();
-
