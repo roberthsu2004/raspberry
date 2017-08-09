@@ -1,11 +1,5 @@
-from gpiozero import MCP3008
-from time import sleep
+from gpiozero import LED
 
-pot = MCP3008(0);
-ldr = MCP3008(1);
-
-while True:
-    print("variable:%.2f" % pot.value);
-    print("======================");
-    print("light:%.5f" % ldr.value);
-    sleep(1);
+relay = LED(17);
+relay.on();
+relay.off();
