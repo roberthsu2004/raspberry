@@ -1,17 +1,17 @@
-from gpiozero import MCP3008,LED
+from gpiozero import MCP3008
 from time import sleep
 
 pot = MCP3008(0);
 ldr = MCP3008(1);
-relay = LED(17);
+adc = MCP3008(7);
+
 
 while True:
     print("variable:%.5f" % pot.value);
     print("======================");
     print("light:%.5f" % ldr.value);
-    #light = 0.11 , dark = 0.02
-    if ldr.value > 0.06:
-        relay.on();
-    else:
-        relay.off();
-    sleep(1);
+    
+    for value in  adc.values:
+        print(value * 3.3 * 100);
+        
+    sleep(100);
