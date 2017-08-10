@@ -1,17 +1,8 @@
-from gpiozero import MCP3008
+from gpiozero import DistanceSensor
 from time import sleep
 
-pot = MCP3008(0);
-ldr = MCP3008(1);
-adc = MCP3008(7);
-
+sensor = DistanceSensor(23, 24);
 
 while True:
-    print("variable:%.5f" % pot.value);
-    print("======================");
-    print("light:%.5f" % ldr.value);
-    
-    for value in  adc.values:
-        print(value * 3.3 * 100);
-        
-    sleep(100);
+    print("Distance to %.2f m" % sensor.distance);
+    sleep(1);
