@@ -1,8 +1,8 @@
-from gpiozero import DistanceSensor
+from HR04 import HR04
 from time import sleep
 
-sensor = DistanceSensor(23, 24);
+hr04 = HR04(23,24);
 
 while True:
-    print("Distance to %.2f m" % sensor.distance);
+    print("Distance to %.2f cm" % hr04.getCmDistance());
     sleep(1);
