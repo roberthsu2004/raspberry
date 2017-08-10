@@ -4,5 +4,10 @@ from time import sleep
 hr04 = HR04(23,24);
 
 while True:
-    print("Distance to %.2f cm" % hr04.getCmDistance());
+    try:
+        distance = hr04.getCmDistance();
+        print("Distance to %.2f cm" % distance);
+    except:
+        print("too long");
+        pass;
     sleep(1);
