@@ -10,6 +10,7 @@ class App:
         self.master = master;       
         self.distanceValue = 0;
         self.valueVariable = IntVar();
+        self.firebase_url = "https://raspberryfirebase.firebaseio.com";
         
         #for gpio servo initial
         self.servo = AngularServo(18,min_angle=0,max_angle=90);
@@ -37,6 +38,8 @@ class App:
     def changeDegree(self):
         self.angleValue = self.valueVariable.get();
         print(self.angleValue);
+        passData = {"angle":self.angleValue};
+        requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
         
         
     def distanceHandler(self):
