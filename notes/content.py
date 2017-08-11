@@ -7,16 +7,24 @@ import json
 
 class App:
     def __init__(self,master):
-        self.master = master;
+        self.master = master;       
+
+        #for gpio servo initial
+        self.servo = AngularServo(18,min_angle=0,max_angle=90);
+        self.servo.angle = 0;
+
         #HR04
         self.hr04 = HR04(23,24);
         self.distanceHandler();
-        
         
     def distanceHandler(self):
         distance = self.hr04.getCmDistance();
         if distance != None:
             print("%.2f cm" % distance);
+            if distance < 10:
+                self.servo.min();
+            else:
+                self.servo.max();
         else:
             print("too long");
             
