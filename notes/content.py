@@ -16,15 +16,24 @@ class App:
         #HR04
         self.hr04 = HR04(23,24);
         self.distanceHandler();
+
+        #for tk
+        mainFrame = Frame(self.master);
+        servoFrame = Frame(mainFrame);
+        borderFrame = Frame(servoFrame,borderwidth=2,relief=GROOVE,pady=30,padx=10);
+        borderFrame.pack(side=TOP,padx=10,pady=10);
+        servoFrame.pack(side=TOP);
+        mainFrame.pack();
+        
         
     def distanceHandler(self):
         distance = self.hr04.getCmDistance();
         if distance != None:
             print("%.2f cm" % distance);
             if distance < 10:
-                self.servo.min();
+                self.servo.angle = 0;
             else:
-                self.servo.max();
+                self.servo.angle = 45;
         else:
             print("too long");
             
