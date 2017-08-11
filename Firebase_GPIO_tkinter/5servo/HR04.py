@@ -35,11 +35,11 @@ class HR04(object):
             pulse_duration = self.pulse_end - self.pulse_start;
             distance = pulse_duration * 17150;
             distance = round(distance);
-            GPIO.cleanup();
+            
             if distance < 2 or distance > 400:
                 return None;
             else:
                 return distance;
         except:
-            GPIO.cleanup();
+            
             return None;

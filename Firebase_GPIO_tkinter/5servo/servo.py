@@ -57,7 +57,7 @@ class App:
         request = requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
 
     def distanceHandler(self):
-         #try:            
+         try:            
             distance = self.hr04.getCmDistance();
             if distance != None:                
                 self.distanceValue.set("distance:%d" % distance);
@@ -69,7 +69,7 @@ class App:
             self.valueVariable.set(angle);            
             self.servo.angle = float(angle);
             print(self.servo);
-         #except:
+         except:
             pass;
             
             self.master.after(1000,self.distanceHandler);
