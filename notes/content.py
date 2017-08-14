@@ -56,10 +56,15 @@ class App:
                 print("%.2f cm" % distance);
                 self.distanceValue.set("distance:%d cm" % distance);
                 passData = {"distance":distance};
-                request = requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
+                requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
                 
             else:
                 print("too long");
+
+            getJson = requests.get(self.firebase_url + "/raspberrypi/servo.json").json();
+            angle = getJson["angle"];
+            self.valueVariable.set(angle);
+            self.servo.angle = float(angle);
         except:
             print("except");
             pass;
