@@ -56,7 +56,7 @@ class App:
                 print("%.2f cm" % distance);
                 self.distanceValue.set("distance:%d cm" % distance);
                 passData = {"distance":distance};
-                request = requests.patch(self.firebase_url + "raspberrypi/servo.json",data=json.dumps(passData));
+                request = requests.patch(self.firebase_url + "/raspberrypi/servo.json",data=json.dumps(passData));
                 
             else:
                 print("too long");
