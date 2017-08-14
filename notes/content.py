@@ -8,8 +8,9 @@ import json
 class App:
     def __init__(self,master):
         self.master = master;       
-        self.distanceValue = 0;
+        self.angleValue = 0;
         self.valueVariable = IntVar();
+        self.distanceValue =  StringVar();
         self.firebase_url = "https://raspberryfirebase.firebaseio.com";
         
         #for gpio servo initial
@@ -33,6 +34,12 @@ class App:
         self.button90 = Radiobutton(borderFrame,text="90",variable=self.valueVariable,value=90,indicatoron=0,padx=20,command=self.changeDegree).pack(side=LEFT,padx=20);
         borderFrame.pack(side=TOP,padx=10,pady=10);
         servoFrame.pack(side=TOP);
+
+        distanceFrame = Frame(mainFrame);
+        self.label = Label(distanceFrame,textvariable = self.distanceValue);
+        self.distanceValue.set("distance:0cm");
+        self.label.pack();
+        distanceFrame.pack(side=TOP);
         mainFrame.pack();
         
     def changeDegree(self):
@@ -46,10 +53,8 @@ class App:
         distance = self.hr04.getCmDistance();
         if distance != None:
             print("%.2f cm" % distance);
-            if distance < 10:
-                self.servo.angle = 0;
-            else:
-                self.servo.angle = 45;
+            self.distanceValue.set("distance:%d cm" % distance);
+            
         else:
             print("too long");
             
