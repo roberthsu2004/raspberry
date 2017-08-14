@@ -50,13 +50,19 @@ class App:
         
         
     def distanceHandler(self):
-        distance = self.hr04.getCmDistance();
-        if distance != None:
-            print("%.2f cm" % distance);
-            self.distanceValue.set("distance:%d cm" % distance);
-            
-        else:
-            print("too long");
+        try:
+            distance = self.hr04.getCmDistance();
+            if distance != None:
+                print("%.2f cm" % distance);
+                self.distanceValue.set("distance:%d cm" % distance);
+                passData = {"distance":distance};
+                request = requests.patch(self.firebase_url + "raspberrypi/servo.json",data=json.dumps(passData));
+                
+            else:
+                print("too long");
+        except:
+            print("except");
+            pass;
             
         self.master.after(1000,self.distanceHandler);
 
