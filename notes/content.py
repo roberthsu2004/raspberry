@@ -3,9 +3,9 @@ from tkinter import *
 class App:
     def __init__(self,master):
         fm = Frame(master);
-        Button(fm, text="Left").pack(side=TOP);
+        Button(fm, text="Left").pack(side=TOP,fill=X);
         Button(fm, text = "This is the Center button").pack(side=TOP);
-        Button(fm, text= "Right").pack(side=TOP);
+        Button(fm, text= "Right").pack(side=TOP,fill=X);
         fm.pack();
         
 
