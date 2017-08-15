@@ -2,9 +2,11 @@ from tkinter import *
 
 class App:
     def __init__(self,master):
-        Button(master, text="Left").pack(side=LEFT);
-        Button(master, text = "Center").pack(side=LEFT);
-        Button(master, text= "Right").pack(side=LEFT);
+        fm = Frame(master);
+        Button(fm, text="Left").pack(side=TOP);
+        Button(fm, text = "This is the Center button").pack(side=TOP);
+        Button(fm, text= "Right").pack(side=TOP);
+        fm.pack();
         
 
 
