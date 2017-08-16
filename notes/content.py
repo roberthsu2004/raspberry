@@ -1,9 +1,12 @@
 from gpiozero import MCP3008
 from tkinter import *
+import requests
+import json
 
 class App:
     ldr = MCP3008(channel=7);
     adc = MCP3008(channel=6);
+    firebase_url = "https://raspberryfirebase.firebaseio.com";
     
     def __init__(self,master):
         self.master = master;
@@ -24,6 +27,10 @@ class App:
         try:
             self.temperatureValue.set("temperature:%.2f" % (App.adc.value * 3.3 * 100));
             self.brightnessValue.set("brightness:%.2f" % App.ldr.value);
+            #firebase
+            passData = {"temperature":"%.2f" % (App.adc.value * 3.3 * 100),"brightness":"%.2f" % App.ldr.value};
+            response = requests.put(App.firebase_url + "/raspberrypi/MCP3008.json",data=json.dumps(passData));
+            print(response);
         except:
             print("error");
             pass;
