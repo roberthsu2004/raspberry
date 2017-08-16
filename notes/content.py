@@ -6,15 +6,15 @@ class App:
             Button(fm, text="Top").pack(side=TOP,expand=YES,fill=BOTH);
             Button(fm, text="Center").pack(side=TOP,expand=YES,fill=BOTH);
             Button(fm, text="Bottom").pack(side=TOP,expand=YES,fill=BOTH);
-            fm.pack(side=LEFT);
+            fm.grid(row=0,column=0,sticky=W);
             fm2 = Frame(master);
             Button(fm2, text="Left").pack(side=LEFT);
             Button(fm2, text="This is Center").pack(side=LEFT);
             Button(fm2, text="Right").pack(side=LEFT);
-            fm2.pack(side=LEFT);
+            fm2.grid(row=0,column=1,sticky=W);
             
 root = Tk();
 root.option_add("*font",("verdana",12,"bold"));
-root.title("Pack - Example 4");
+root.title("Pack - Example 6");
 display = App(root)
 root.mainloop();
