@@ -6,10 +6,13 @@ class App:
             Button(fm, text="Top").pack(side=TOP,expand=YES,fill=BOTH);
             Button(fm, text="Center").pack(side=TOP,expand=YES,fill=BOTH);
             Button(fm, text="Bottom").pack(side=TOP,expand=YES,fill=BOTH);
-            Button(fm, text="Left").pack(side=LEFT);
-            Button(fm, text="This is Center").pack(side=LEFT);
-            Button(fm, text="Right").pack(side=LEFT);
-            fm.pack(fill=BOTH,expand=YES);
+            fm.pack(side=LEFT);
+            fm2 = Frame(master);
+            Button(fm2, text="Left").pack(side=LEFT);
+            Button(fm2, text="This is Center").pack(side=LEFT);
+            Button(fm2, text="Right").pack(side=LEFT);
+            fm2.pack(side=LEFT);
+            
 root = Tk();
 root.option_add("*font",("verdana",12,"bold"));
 root.title("Pack - Example 4");
