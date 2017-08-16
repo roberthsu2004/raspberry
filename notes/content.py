@@ -21,9 +21,13 @@ class App:
         self.autoUpdate();
 
     def autoUpdate(self):
-        self.temperatureValue.set("temperature:%.2f" % (App.adc.value * 3.3 * 100));
-        self.brightnessValue.set("brightness:%.2f" % App.ldr.value);
-                
+        try:
+            self.temperatureValue.set("temperature:%.2f" % (App.adc.value * 3.3 * 100));
+            self.brightnessValue.set("brightness:%.2f" % App.ldr.value);
+        except:
+            print("error");
+            pass;
+        
         self.master.after(500,self.autoUpdate);
         
 
