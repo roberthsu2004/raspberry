@@ -58,18 +58,30 @@ class App:
             doorBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
             doorFrame.pack(side=LEFT,expand=YES,fill=BOTH);
             #RGBLED
-            gateFrame=Frame(frame,background="#876543");
-            gateBorder = Frame(gateFrame,borderwidth=2,relief=GROOVE,background="#876543");
-            gateTitle = Label(gateFrame,text="柵欄狀態",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            rgbFrame=Frame(frame,background="#876543");
+            rgbBorder = Frame(rgbFrame,borderwidth=2,relief=GROOVE,background="#876543");
+            rgbTitle = Label(rgbFrame,text="RGB狀態",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
            
-            gateBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
-            gateFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+            rgbBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            rgbFrame.pack(side=LEFT,expand=YES,fill=BOTH);
 
         def __bathRoomLayout(self,frame):
             fm3Title = Label(frame,text="二摟臥室").pack(side=TOP,pady=10,padx=10,anchor=W);
-            Button(frame, text="button7").pack(side=LEFT,expand=YES,fill=BOTH);
-            Button(frame, text="button8").pack(side=LEFT,expand=YES,fill=BOTH);
-            Button(frame, text="button9").pack(side=LEFT,expand=YES,fill=BOTH);    
+            #LED
+            ledFrame=Frame(frame,background="#345678");
+            ledBorder = Frame(ledFrame,borderwidth=2,relief=GROOVE,background="#345678");
+            ledTitle = Label(ledFrame,text="LED狀態",background="#345678",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            
+            ledBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            ledFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+            #lightness
+            lightnessFrame=Frame(frame,background="#876543");
+            lightnessBorder = Frame(lightnessFrame,borderwidth=2,relief=GROOVE,background="#876543");
+            lightnessTitle = Label(lightnessFrame,text="Lightness狀態",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+           
+            lightnessBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            lightnessFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+    
             
 root = Tk();
 root.option_add("*font",("verdana",18));
