@@ -50,9 +50,20 @@ class App:
 
         def __livingRoomLayout(self,frame):
             fm2Title = Label(frame,text="一樓客廳").pack(side=TOP,pady=10,padx=10,anchor=W);
-            Button(frame, text="button4").pack(side=LEFT,expand=YES,fill=BOTH);
-            Button(frame, text="button5").pack(side=LEFT,expand=YES,fill=BOTH);
-            Button(frame, text="button6").pack(side=LEFT,expand=YES,fill=BOTH);
+            #Door
+            doorFrame=Frame(frame,background="#345678");
+            doorBorder = Frame(doorFrame,borderwidth=2,relief=GROOVE,background="#345678");
+            doorTitle = Label(doorFrame,text="Door狀態",background="#345678",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            
+            doorBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            doorFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+            #RGBLED
+            gateFrame=Frame(frame,background="#876543");
+            gateBorder = Frame(gateFrame,borderwidth=2,relief=GROOVE,background="#876543");
+            gateTitle = Label(gateFrame,text="柵欄狀態",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+           
+            gateBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            gateFrame.pack(side=LEFT,expand=YES,fill=BOTH);
 
         def __bathRoomLayout(self,frame):
             fm3Title = Label(frame,text="二摟臥室").pack(side=TOP,pady=10,padx=10,anchor=W);
