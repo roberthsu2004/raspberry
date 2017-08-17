@@ -22,8 +22,16 @@ class App:
         
         def __garageLayout(self,frame):
             fm1Title = Label(frame,text="停車庫").pack(side=TOP,pady=10,padx=10,anchor=W);
-            Frame(frame,background="#345678").pack(side=LEFT,expand=YES,fill=BOTH);
-            Frame(frame,background="#876543").pack(side=LEFT,expand=YES,fill=BOTH);
+            #parking
+            parkingFrame=Frame(frame,background="#345678");
+            parkingBorder = Frame(parkingFrame,borderwidth=2,relief=GROOVE,background="#345678");
+            parkingBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            parkingFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+            #gate
+            gateFrame=Frame(frame,background="#876543");
+            gateBorder = Frame(gateFrame,borderwidth=2,relief=GROOVE,background="#876543");
+            gateBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
+            gateFrame.pack(side=LEFT,expand=YES,fill=BOTH);
             
 
         def __livingRoomLayout(self,frame):
