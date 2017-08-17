@@ -22,9 +22,9 @@ class App:
         
         def __garageLayout(self,frame):
             fm1Title = Label(frame,text="停車庫").pack(side=TOP,pady=10,padx=10,anchor=W);
-            Button(frame, text="button1").pack(side=LEFT,expand=YES,fill=BOTH);
-            Button(frame, text="button2").pack(side=LEFT,expand=YES,fill=BOTH);
-            Button(frame, text="button3").pack(side=LEFT,expand=YES,fill=BOTH);
+            Frame(frame,background="#345678").pack(side=LEFT,expand=YES,fill=BOTH);
+            Frame(frame,background="#876543").pack(side=LEFT,expand=YES,fill=BOTH);
+            
 
         def __livingRoomLayout(self,frame):
             fm2Title = Label(frame,text="一樓客廳").pack(side=TOP,pady=10,padx=10,anchor=W);
