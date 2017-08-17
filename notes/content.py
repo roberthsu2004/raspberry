@@ -4,7 +4,7 @@ class App:
             master.geometry("800x800");
             fm1 = Frame(master);
             fm1Border = Frame(fm1,borderwidth=2,relief=GROOVE);
-            fm1Title = Label(fm1,text="停車庫").place(relx=0.03,rely=0.08,anchor=NW);
+            fm1Title = Label(fm1Border,text="停車庫").pack(side=TOP,pady=10,padx=10,anchor=W);
             Button(fm1Border, text="button1").pack(side=LEFT,expand=YES,fill=BOTH);
             Button(fm1Border, text="button2").pack(side=LEFT,expand=YES,fill=BOTH);
             Button(fm1Border, text="button3").pack(side=LEFT,expand=YES,fill=BOTH);
@@ -13,7 +13,7 @@ class App:
             
             fm2 = Frame(master);
             fm2Border = Frame(fm2,borderwidth=2,relief=GROOVE);
-            fm2Title = Label(fm2,text="一樓客廳").place(relx=0.03,rely=0.08,anchor=NW);
+            fm2Title = Label(fm2Border,text="一樓客廳").pack(side=TOP,pady=10,padx=10,anchor=W);
             Button(fm2Border, text="button4").pack(side=LEFT,expand=YES,fill=BOTH);
             Button(fm2Border, text="button5").pack(side=LEFT,expand=YES,fill=BOTH);
             Button(fm2Border, text="button6").pack(side=LEFT,expand=YES,fill=BOTH);
@@ -22,7 +22,7 @@ class App:
             
             fm3 = Frame(master);
             fm3Border = Frame(fm3,borderwidth=2,relief=GROOVE);
-            fm3Title = Label(fm3,text="二摟臥室").place(relx=0.03,rely=0.08,anchor=NW);
+            fm3Title = Label(fm3Border,text="二摟臥室").pack(side=TOP,pady=10,padx=10,anchor=W);
             Button(fm3Border, text="button7").pack(side=LEFT,expand=YES,fill=BOTH);
             Button(fm3Border, text="button8").pack(side=LEFT,expand=YES,fill=BOTH);
             Button(fm3Border, text="button9").pack(side=LEFT,expand=YES,fill=BOTH);
