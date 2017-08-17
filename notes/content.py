@@ -25,13 +25,16 @@ class App:
             #parking
             parkingFrame=Frame(frame,background="#345678");
             parkingBorder = Frame(parkingFrame,borderwidth=2,relief=GROOVE,background="#345678");
-            parkingTitle = Label(parkingFrame,text="Parking State",background="#345678",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            parkingTitle = Label(parkingFrame,text="停車狀態",background="#345678",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            self.parkingMessageString = StringVar();
+            parkingMessage = Label(parkingBorder,textvariable=self.parkingMessageString,background="#345678",foreground="white").pack(expand=YES);
+            self.parkingMessageString.set("presented");
             parkingBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
             parkingFrame.pack(side=LEFT,expand=YES,fill=BOTH);
             #gate
             gateFrame=Frame(frame,background="#876543");
             gateBorder = Frame(gateFrame,borderwidth=2,relief=GROOVE,background="#876543");
-            gateTitle = Label(gateFrame,text="Gate State",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            gateTitle = Label(gateFrame,text="柵欄狀態",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
             gateBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
             gateFrame.pack(side=LEFT,expand=YES,fill=BOTH);
             
