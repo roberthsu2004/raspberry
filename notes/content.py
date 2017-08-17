@@ -35,8 +35,17 @@ class App:
             gateFrame=Frame(frame,background="#876543");
             gateBorder = Frame(gateFrame,borderwidth=2,relief=GROOVE,background="#876543");
             gateTitle = Label(gateFrame,text="柵欄狀態",background="#876543",foreground="white").place(relx=0.02,rely=0.00,anchor=NW)
+            self.gateTextString = StringVar();
+            gateButton = Button(gateBorder,textvariable=self.gateTextString,command=self.changeGate).pack(expand=YES,fill=BOTH,padx=20,pady=20);
+            self.gateTextString.set("Gate Open");
             gateBorder.pack(side=LEFT,expand=YES,fill=BOTH,padx=10,pady=10);
             gateFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+
+        def changeGate(self):
+            if self.gateTextString.get() == "Gate Open":
+                    self.gateTextString.set("Gate Close");
+            else:
+                    self.gateTextString.set("Gate Open");
             
 
         def __livingRoomLayout(self,frame):
