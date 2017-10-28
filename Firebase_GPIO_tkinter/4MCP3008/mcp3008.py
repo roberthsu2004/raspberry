@@ -1,55 +1,52 @@
-from gpiozero import MCP3008
-from time import sleep
 from tkinter import *
+from gpiozero import MCP3008
+from threading import Timer
 import requests
 import json
 
 class App:
-    __master = None;
-    __autoJob = None;
-    ldr = MCP3008(channel=7);
-    adc = MCP3008(channel=6);
-    firebase_url = "https://raspberryfirebase.firebaseio.com";
-    
+    firebase_url = "https://raspberryfirebase.firebaseio.com"
     def __init__(self,master):
-        self.__master = master;
-        mainFrame = Frame(master);
-        subFrame = Frame(mainFrame,relief=GROOVE,borderwidth=2);
-        title = Label(mainFrame,text="brightness").place(anchor=NW,relx=0.08,rely=0.01);
-        self.temperatureValue = StringVar();
-        self.temperatureLabel = Label(subFrame,textvariable=self.temperatureValue);
-        self.temperatureLabel.pack(fill=X,pady=30);
+        self.ldr = MCP3008(channel=7);
+        self.adc = MCP3008(channel=6);
+        brightnessFrame = Frame(master,relief=GROOVE,borderwidth=2);
+        birghtnessSubFrame = Frame(brightnessFrame);
+        Label(birghtnessSubFrame,text="明亮度",anchor=W).pack(fill=BOTH,pady=10,padx=10);
         self.brightnessValue = StringVar();
-        self.brightnessLabel = Label(subFrame,textvariable = self.brightnessValue);
-        self.brightnessLabel.pack(fill=X,pady=30);
-        
+        Label(birghtnessSubFrame,textvariable=self.brightnessValue).pack(fill=BOTH,pady=10);
+        self.brightnessValue.set("0.12345");
+        birghtnessSubFrame.pack(ipady=40,ipadx=150);
+        brightnessFrame.pack(pady=30,padx=30);
+
+        temperatureFrame = Frame(master,relief=GROOVE,borderwidth=2);
+        temperatureSubFrame = Frame(temperatureFrame);
+        Label(temperatureSubFrame,text="溫度",anchor=W).pack(fill=BOTH,pady=10,padx=10);
+        self.temperatureValue = StringVar();
+        Label(temperatureSubFrame,textvariable=self.temperatureValue).pack(fill=BOTH,pady=10);
+        self.temperatureValue.set("23");
+        temperatureSubFrame.pack(ipady=40,ipadx=150);
+        temperatureFrame.pack(pady=30,padx=30);
         self.autoUpdate();
-        subFrame.pack(fill=BOTH,expand=YES,padx=20,pady=20);
-        mainFrame.pack(fill=BOTH,expand=YES);
-
-    def autoUpdate(self):
-        try:
-            self.temperatureValue.set("temperature:%.2f" % (self.adc.value * 3.3 * 100));
-            self.brightnessValue.set("brightness:%.2f" % self.ldr.value);
-            ''''firebase'''
-            passData = {"temperature":"%.2f" % (self.adc.value * 3.3 * 100),"brightness":"%.2f" % self.ldr.value};
-            request = requests.put(self.firebase_url + "/raspberrypi/MCP3008.json",data=json.dumps(passData));
-            print(request);
-           
-        except:
-            print("error");
-            
-
-        self.__master.after(500,self.autoUpdate);
-        
-        
     
+    def autoUpdate(self):
+        self.brightnessValue.set("brightness:%.2f" % self.ldr.value);
+        self.temperatureValue.set("temperature:%.2f" % (self.adc.value * 3.3 * 100));
+        #firebase
+        passData = {"temperature":"%.2f" % (self.adc.value * 3.3 * 100),"brightness":"%.2f" % self.ldr.value}
+        try:
+            requests.put(App.firebase_url + "/raspberrypi/MCP3008.json",data=json.dumps(passData));
+        except:
+            Timer(1,self.autoUpdate).start();
+            return;
+
+        Timer(1,self.autoUpdate).start();
+
+
+
 root = Tk();
-root.title("brightness");
-root.geometry("400x300+30+30");
+root.title("溫度和光線感應");
 root.option_add("*font",("verdana",18,"bold"));
 root.option_add("*background","gold");
 root.option_add("*forground","#888888");
-app = App(root);
+display = App(root);
 root.mainloop();
-    
