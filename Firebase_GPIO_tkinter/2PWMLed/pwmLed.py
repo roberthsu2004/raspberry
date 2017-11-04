@@ -5,6 +5,7 @@ import json
 import requests
 import threading;
 
+
 class App:
     '''這是app的class用來做控制pwm的介面'''
 
@@ -16,7 +17,8 @@ class App:
         self.scale = None;
         self.scaleValue = IntVar();
         self.firebase_url = "https://raspberryfirebase.firebaseio.com"
-"
+        self.led = PWMLED(self.pin);
+
 
         #介面
         self.master = master;
@@ -51,8 +53,10 @@ class App:
             receiveData = response.json();
             value = receiveData["pwm_value"];
             self.scaleValue.set(value);
+            self.led.value = value/100.0;
         except:
             print("get data error";);
+            print(error);
         finally:
             threading.Timer(0.2,self.getDataFromFirebase).start();
         
