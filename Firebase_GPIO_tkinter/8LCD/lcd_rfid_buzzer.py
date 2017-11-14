@@ -93,10 +93,8 @@ class App:
         self.lcd_init();
         
         
-        self.master = master;
-        self.angleValue = 0;
-        self.valueVariable = IntVar();
-        self.rfidValue = StringVar();
+        self.master = master;        
+       
         self.line1Value = StringVar();
         self.line2Value = StringVar();
 
@@ -124,22 +122,35 @@ class App:
         borderFrame.pack(padx=10,pady=10);
         lcdFrame.pack();
 
-        rfidFrame = Frame(mainFrame);
-        Label(rfidFrame,textvariable=self.rfidValue).pack();
-        self.rfidValue.set("distance:0cm");
-        rfidFrame.pack();
+        
         mainFrame.pack();
+
+        #firebase Handler
+        self.firebaseHandler();
     
     def changeLCDdisplay(self):
          line1 = self.line1Value.get();
          line2 = self.line2Value.get();
          self.lcd_string(line1,LCD_LINE_1);
          self.lcd_string(line2,LCD_LINE_2);
+         passData = {"line1":line1,"line2":line2};
+         request = requests.patch(self.firebase_url + "/raspberrypi/LCD.json",data = json.dumps(passData));
     
     def showRfidNumber(self,message):
         self.lcd_string(message,LCD_LINE_1);
         self.line1Value.set(message);
+    
+    def firebaseHandler(self):
+        print("Hello!World");
+        #loadData
+        getJson = requests.get(self.firebase_url + "/raspberrypi/LCD.json").json();
+        line1Value = getJson["line1"];
+        line2Value = getJson["line2"];
+        self.lcd_string(line1Value,LCD_LINE_1);
+        self.lcd_string(line2Value,LCD_LINE_2);
 
+
+        threading.Timer(2,self.firebaseHandler).start();
     
     
 '''
@@ -197,13 +208,17 @@ if __name__ == "__main__":
                 if uid0 != uid[0] and uid1 != uid[1] and uid2 != uid[2] and uid3 != uid[3]:
                     message = str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3]);
                     print(message); 
-                    display.showRfidNumber(message);                       
+                    display.showRfidNumber(message); 
+                    #上傳至Firebase
+                    passData = {"cardID":message};
+                    request = requests.post(display.firebase_url + "/raspberrypi/rfid.json",data = json.dumps(passData));
                     uid0 = uid[0];
                     uid1 = uid[1];
                     uid2 = uid[2];
                     uid3 = uid[3]; 
 
         threading.Timer(0.2,rfidWait).start();
-
     rfidWait();
     root.mainloop();
+    
+    
