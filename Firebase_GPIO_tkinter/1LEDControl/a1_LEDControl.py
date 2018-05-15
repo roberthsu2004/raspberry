@@ -1,17 +1,24 @@
 from tkinter import *
 from gpiozero import LED
-import requests
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 import threading
 import datetime
 import time
-import json
+
 
 class App:
-    firebase_url = "https://raspberryfirebase.firebaseio.com/";
+    
     def __init__(self,master):
         self.ledText = StringVar();
         self.ledState = "";
         self.led25 = LED(25);
+        self.cred = credentials.Certificate("raspberryfirebase-firebase-adminsdk-q4ht6-1608c845ce.json");
+        firebase_admin.initialize_app(self.cred,{
+            'databaseURL': 'https://raspberryfirebase.firebaseio.com/'
+        });
+        self.ref = db.reference("raspberrypi/LED_Control");        
         master.title("LED Control");
         master.option_add("*Font",("verdana",18,"bold"));
         f = Frame(master);
@@ -30,32 +37,34 @@ class App:
         
         t = time.time();
         date = datetime.datetime.fromtimestamp(t).strftime("%Y-%m-%d-%H-%M-%S");
-        data = {"LED25":newState,"date":date};
+        print("newState={0}".format(newState));
         try:
-            result = requests.put(App.firebase_url + "/" + "raspberrypi/LED_Control.json",data=json.dumps(data));
+            self.ref.update({
+                'LED25': newState,
+                'date': date
+            });
+
         except:
             return;
-        print("status code = %s, Respone = %s" % (str(result.status_code),result.text));
-
+        
         
     
     def getFirebaseData(self):
         try:
-            response = requests.get(App.firebase_url + "/" + "raspberrypi/LED_Control.json");
+            response = self.ref.get();            
         except:
-            threading.Timer(0.1,self.getFirebaseData).start();
+            threading.Timer(0.2,self.getFirebaseData).start();
             return;
         
-        if response.status_code == 200 :
-            self.ledState = response.json()["LED25"];
-            if self.ledState == "OPEN":
-                self.ledText.set("LED CLOSE");
-                self.led25.on();
-            elif self.ledState == "CLOSE":
-                self.ledText.set("LED OPEN");
-                self.led25.off();
-        
-        threading.Timer(0.1,self.getFirebaseData).start();
+        self.ledState = response["LED25"];
+        if self.ledState == "OPEN":
+            self.ledText.set("LED CLOSE");
+            self.led25.on();
+        elif self.ledState == "CLOSE":
+            self.ledText.set("LED OPEN");
+            self.led25.off();
+
+        threading.Timer(0.2,self.getFirebaseData).start();
 
 
 
