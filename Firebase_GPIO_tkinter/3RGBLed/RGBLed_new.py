@@ -56,13 +56,14 @@ class App:
         rightFrame.pack(side=LEFT,expand=YES,fill=BOTH);
         
         mainFrame.pack(expand=YES,fill=BOTH);
+        threading.Timer(0.2,self.getFirebaseRGBLed).start();
         
-        threading.Timer(0.2,self.getFirebaseRGBLed()).start();
         
         
     
     def buttonPress(self,event):
         print("buttonPress");
+        
     
     def buttonRelease(self,event):
         self.sendToFirebase();
@@ -85,21 +86,32 @@ class App:
         });
         
     def getFirebaseRGBLed(self):
-        rgbData = self.rgbRef.get();
+        try:
+            rgbData = self.rgbRef.get();
+        except:
+            threading.Timer(0.2,self.getFirebaseRGBLed).start();
+            return;
+        
         redValue = rgbData['red'];
         greenValue = rgbData['green'];
-        blueValue = rgbData['blue'];
-        
+        blueValue = rgbData['blue'];  
+            
         redPercent = 1-(redValue/255);
+        print(redPercent);
         self.rgbLed.red = redPercent;
+        self.redScaleValue.set(redValue);
         
         greenPercent = 1-(greenValue/255);
+        print(greenPercent);
         self.rgbLed.green = greenPercent;
+        self.greenScaleValue.set(greenValue);
         
         bluePercent = 1-(blueValue/255);
+        print(bluePercent);
         self.rgbLed.blue = bluePercent;
+        self.blueScaleValue.set(blueValue);
         
-        threading.Timer(0.2,self.getFirebaseRGBLed()).start();
+        threading.Timer(0.2,self.getFirebaseRGBLed).start();
 
 if __name__ == "__main__":
     root = Tk();
