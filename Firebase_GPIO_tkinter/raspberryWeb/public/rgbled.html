@@ -93,17 +93,19 @@
     </div> <!-- /container -->
       
     <!--Firebase script -->
-    <script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
     <script>
     // Initialize Firebase
+    // Initialize Firebase
     var config = {
-        apiKey: "AIzaSyAHgSjntOofP5uFmmkHLTmuyCsS3f9OeSc",
-        authDomain: "raspberryfirebase.firebaseapp.com",
-        databaseURL: "https://raspberryfirebase.firebaseio.com",
-        storageBucket: "raspberryfirebase.appspot.com",
-        messagingSenderId: "929629322713"
+    apiKey: "AIzaSyAHgSjntOofP5uFmmkHLTmuyCsS3f9OeSc",
+    authDomain: "raspberryfirebase.firebaseapp.com",
+    databaseURL: "https://raspberryfirebase.firebaseio.com",
+    projectId: "raspberryfirebase",
+    storageBucket: "raspberryfirebase.appspot.com",
+    messagingSenderId: "929629322713"
     };
-    firebase.initializeApp(config);        
+    firebase.initializeApp(config); 
     var database = firebase.database();    
     </script>
 
