@@ -1,122 +1,125 @@
-from gpiozero import RGBLED
-from tkinter import *
-import requests
-import json
-import threading
+from gpiozero import RGBLED;
+from tkinter import *;
+import firebase_admin
+from firebase_admin import credentials;
+from firebase_admin import db;
+import threading;
 
 class App:
-    __sendJob = None;
-    master = None;
-    firebase_url = "https://raspberryfirebase.firebaseio.com";
-    redPin = 22;
-    greenPin = 27;
-    bluePin = 17;
-    rgbLed = RGBLED(redPin,greenPin,bluePin);
-    timer = None;
-    
-    def __init__(self,master):
-        self.master = master;
-        '''variable class'''
+    def __init__(self,root):
+        #initial firebase
+        cred = credentials.Certificate("raspberryfirebase-firebase-adminsdk-q4ht6-1608c845ce.json");
+        firebase_admin.initialize_app(cred,{'databaseURL':'https://raspberryfirebase.firebaseio.com/'});
+        self.rgbRef = db.reference('raspberrypi/RGB_LED');
+        #initial rgbLed
+        self.rgbLed = RGBLED(red=22,green=27,blue=17);
+        self.rgbLed.red = 1;
+        self.rgbLed.green = 1;
+        self.rgbLed.blue = 1;
+        
         self.redScaleValue = IntVar();
         self.greenScaleValue = IntVar();
         self.blueScaleValue = IntVar();
         
-        mainFrame = Frame(master,width=700,height=400);        
-        leftFrame = Frame(mainFrame,bg="#bbbbbb",width=200);        
-        self.resultCanvas = Canvas(leftFrame,width=200,height=200,bg="#bbbbbb");       
-        self.rectangleItem = self.resultCanvas.create_rectangle(15,15,185,185,fill="blue");
-        self.resultCanvas.pack(side=LEFT);
+        mainFrame = Frame(root,width=700,height=400);
+        #leftFrame
+        leftFrame = Frame(mainFrame,bg="#bbbbbb",width=200);
+        resultCanvas = Canvas(leftFrame,width=200,height=200,bg="#bbbbbb");
+        rectangleItem = resultCanvas.create_rectangle(15,15,185,185,fill="blue");
+        resultCanvas.pack(side=LEFT);
+        leftFrame.pack(side=LEFT);
         
-        leftFrame.pack(side=LEFT,fill=Y,expand=YES);
+        #rightFrame
+        rightFrame = Frame(mainFrame, bg="#bbbbbb",width=500);
         
-        rightFrame=Frame(mainFrame,bg="#bbbbbb",width=500);
-        self.createRightArea(rightFrame);
-        
-        rightFrame.pack(side=LEFT,fill=Y);
-        
-        mainFrame.pack(fill=BOTH,expand=YES);
-        self.getDataFromFirebase();
-
-    def createRightArea(self,master):
-        redLabel = Label(master,text="Red",fg="red",justify=LEFT,compound=LEFT).pack(fill=X,pady=10);
-        self.redScale = Scale(master,from_=0,to=255,orient=HORIZONTAL,length=500,bg="red",foreground="white",relief=FLAT,borderwidth=0,command=self.redChange,variable=self.redScaleValue);
+        #red
+        redLabel = Label(rightFrame,text="Red",fg="red",justify=LEFT).pack(fill=X,pady=10);
+        self.redScale = Scale(rightFrame,from_=0,to=255,orient=HORIZONTAL,length=500,bg="red",foreground="white",relief=FLAT,borderwidth=0,command=self.redChange,variable=self.redScaleValue);
         self.redScale.pack(fill=X,pady=10,padx=5);
         self.redScale.bind("<ButtonPress>",self.buttonPress);
         self.redScale.bind("<ButtonRelease>",self.buttonRelease);
-        greenLabel = Label(master,text="Green",fg="green",justify=LEFT,compound=LEFT).pack(fill=X,pady=10);
-        self.greenScale = Scale(master,from_=0,to=255,orient=HORIZONTAL,length=500,bg="green",foreground="white",relief=FLAT,borderwidth=0,command=self.greenChange,variable=self.greenScaleValue);
+        
+        #green
+        greenLabel = Label(rightFrame,text="Green",fg="green",justify=LEFT).pack(fill=X,pady=10);
+        self.greenScale = Scale(rightFrame,from_=0,to=255,orient=HORIZONTAL,length=500,bg="green",foreground="white",command=self.greenChange,relief=FLAT,borderwidth=0,variable=self.greenScaleValue);
         self.greenScale.pack(fill=X,pady=10,padx=5);
         self.greenScale.bind("<ButtonPress>",self.buttonPress);
         self.greenScale.bind("<ButtonRelease>",self.buttonRelease);
-        blueLabel = Label(master,text="Blue",fg="blue",justify=LEFT,compound=LEFT).pack(fill=X,pady=10);
-        self.blueScale = Scale(master,from_=0,to=255,orient=HORIZONTAL,length=500,bg="blue",foreground="white",relief=FLAT,borderwidth=0,command=self.blueChange,variable=self.blueScaleValue);
+        
+        #blue
+        blueLabel = Label(rightFrame,text="Blue",fg="blue",justify=LEFT).pack(fill=X,pady=10);
+        self.blueScale = Scale(rightFrame,from_=0,to=255,orient=HORIZONTAL,length=500,bg="blue",foreground="white",relief=FLAT,borderwidth=0,command=self.blueChange,variable=self.blueScaleValue);
         self.blueScale.pack(fill=X,pady=10,padx=5);
         self.blueScale.bind("<ButtonPress>",self.buttonPress);
         self.blueScale.bind("<ButtonRelease>",self.buttonRelease);
-
-    def redChange(self,redEvent):
-        self.colorChange();
+        
+        rightFrame.pack(side=LEFT,expand=YES,fill=BOTH);
+        
+        mainFrame.pack(expand=YES,fill=BOTH);
+        threading.Timer(0.2,self.getFirebaseRGBLed).start();
+        
+        
+        
     
-    def greenChange(self,greenChange):
-        self.colorChange();
-    
-    def blueChange(self,blueChange):
-        self.colorChange();
-
-    def sendToFirebase(self):
-        '''send To Firebase'''
-        sendRedValue = int(self.redScale.get());
-        sendGreenValue = int(self.greenScale.get());
-        sendBlueValue = int(self.blueScale.get());        
-        #print("red:%d,green:%d,blue:%d" % (sendRedValue,sendGreenValue,sendBlueValue));
-        jsonData = {"red":sendRedValue,"green":sendGreenValue,"blue":sendBlueValue};
-        r = requests.put(self.firebase_url + "/raspberrypi/RGB_LED.json",data=json.dumps(jsonData));
-        
-    def getDataFromFirebase(self):   
-        r = requests.get(self.firebase_url + "/raspberrypi/RGB_LED.json");
-        try:
-            receiveData = r.json();
-            receiveRed = receiveData["red"];
-            receiveGreen = receiveData["green"];
-            receiveBlue = receiveData["blue"];
-            self.rgbLed.color = (receiveRed/255.0,receiveGreen/255.0,receiveBlue/255.0);
-            self.redScaleValue.set(receiveRed);
-            self.greenScaleValue.set(receiveGreen);
-            self.blueScaleValue.set(receiveBlue);
-            print("red:%d,green:%d,blue:%d" % (receiveRed,receiveGreen,receiveBlue));
-            tk_rgb = "#%02x%02x%02x" % (receiveRed,receiveGreen,receiveBlue);
-            print(tk_rgb);
-            self.resultCanvas.itemconfig(self.rectangleItem,fill=tk_rgb);
-        except:
-            return;
-
-        self.timer = threading.Timer(1,self.getDataFromFirebase);
-        self.timer.start();
-        print(self.timer);
-        
-    def colorChange(self):
-        
-        if self.__sendJob:
-            self.master.after_cancel(self.__sendJob);
-        
-        self.__sendJob = self.master.after(100,self.sendToFirebase);
-
     def buttonPress(self,event):
-        if self.timer.is_alive:
-            self.timer.cancel();
-        
-    def buttonRelease(self,event):        
-        self.timer = threading.Timer(1,self.getDataFromFirebase);
-        self.timer.start();
-        
+        print("buttonPress");
         
     
+    def buttonRelease(self,event):
+        self.sendToFirebase();
+    
+    def redChange(self,event):
+        pass;
         
+    
+    def greenChange(self,event):
+        pass;
+    
+    def blueChange(self,event):
+        pass;
+        
+    def sendToFirebase(self):
+        self.rgbRef.update({
+            'red':self.redScaleValue.get(),
+            'green':self.greenScaleValue.get(),
+            'blue':self.blueScaleValue.get()
+        });
+        
+    def getFirebaseRGBLed(self):
+        try:
+            rgbData = self.rgbRef.get();
+        except:
+            threading.Timer(0.2,self.getFirebaseRGBLed).start();
+            return;
+        
+        redValue = rgbData['red'];
+        greenValue = rgbData['green'];
+        blueValue = rgbData['blue'];  
+            
+        redPercent = 1-(redValue/255);
+        print(redPercent);
+        self.rgbLed.red = redPercent;
+        self.redScaleValue.set(redValue);
+        
+        greenPercent = 1-(greenValue/255);
+        print(greenPercent);
+        self.rgbLed.green = greenPercent;
+        self.greenScaleValue.set(greenValue);
+        
+        bluePercent = 1-(blueValue/255);
+        print(bluePercent);
+        self.rgbLed.blue = bluePercent;
+        self.blueScaleValue.set(blueValue);
+        
+        threading.Timer(0.2,self.getFirebaseRGBLed).start();
 
-root = Tk();
-root.geometry("700x400");
-root.title("RGB_LED");
-root.option_add("*Font",("Helvetica",18,"bold"));
-root.option_add("*background","#bbbbbb");
-display = App(root);
-root.mainloop();
+if __name__ == "__main__":
+    root = Tk();
+    root.geometry("700x400");
+    root.title("RBG_LED");
+    root.option_add("*Font",("Helvetica", 18, "bold"));
+    root.option_add("*background","#bbbbbb");
+    display = App(root);
+    print(type(display));
+    root.mainloop();
+
