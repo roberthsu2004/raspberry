@@ -75,6 +75,7 @@ class App:
         servoValues = self.servoRef.get();
         angleValue = servoValues['angle'];
         self.servo.angle = angleValue;
+        self.valueVariable.set(angleValue);
         
 
 if __name__ == "__main__":
