@@ -10,5 +10,7 @@ web:https://sites.google.com/site/zsgititit/home/raspberry-shu-mei-pai/raspberry
   **RC522.PY是3.0版
   
   **安裝spi-dy
+  
    #解壓縮spi-dy-master
+   
    #執行 sudo python3 setup.py install
