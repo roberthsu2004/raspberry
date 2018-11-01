@@ -8,4 +8,3 @@ web:https://sites.google.com/site/zsgititit/home/raspberry-shu-mei-pai/raspberry
 
 
   RC522.PY是3.0版
-  ==============
