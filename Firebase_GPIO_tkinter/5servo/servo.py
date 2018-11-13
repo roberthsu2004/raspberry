@@ -13,7 +13,7 @@ class App:
        self.valueVariable = IntVar();
        self.distanceValue = StringVar();
        #for firebase
-       cred = credentials.Certificate('raspberryfirebase-firebase-adminsdk-q4ht6-1608c845ce.json');
+       cred = credentials.Certificate('raspberryfirebase-firebase-adminsdk-q4ht6-7d3f9d2d5e.json');
        firebase_admin.initialize_app(cred, {'databaseURL': 'https://raspberryfirebase.firebaseio.com/'});
        self.servoRef = db.reference('raspberrypi/servo');
        #for HR04
@@ -69,7 +69,7 @@ class App:
         except:
             print('get distance is Error');
         finally:
-            threading.Timer(0.1,self.distanceHandler).start();
+            threading.Timer(1,self.distanceHandler).start();
     
     def angleHandler(self):
         servoValues = self.servoRef.get();
