@@ -17,22 +17,57 @@ def end_read(signal, frame):
     print("ctrl+c captured, ending read.");
     continue_reading = False;
 
+def onSelect(evt):
+    global thirdFrame;
+    w = evt.widget;
+    index = int(w.curselection()[0]);
+    value = w.get(index);
+    thirdFrame.pack_forget();
+    thirdFrame = Frame(root);
+    docs = firestoreDb.collection(u'門禁資料').where(u'uid', u'==', str(value)).limit(10).get();
+    for (index,doc) in enumerate(docs):
+        #print('uid = {}'.format(doc.get('uid')));
+        #Label(itemFrame,text=doc.get('uid'),width=15).pack(side=LEFT,anchor=W);
+        #Label(itemFrame,text=doc.get('datatime'),width=20).pack(side=LEFT,anchor=W);
+        Label(thirdFrame,text=doc.get('uid'),width=20).grid(row=index,column=0,sticky=W);
+        Label(thirdFrame,text=doc.get('datatime'),width=20).grid(row=index,column=1,sticky=W);
+        #itemFrame.pack();
+        
+    thirdFrame.pack();
+    
+    
 def displayWindow():
     global mainFrame;
+    global thirdFrame;
     root.title("RFID-LCD-BUZZER");
     root.option_add("*font",("Helvetica",18,"bold"));
     root.option_add("*background","gold");
     
     #read firestoredata
-    docs = firestoreDb.collection(u'門禁資料').order_by(u'datatime',direction=firestore.Query.DESCENDING).limit(20).get();
-    mainFrame = Frame(root);
-    for doc in docs:
-        itemFrame = Frame(mainFrame);
+    docs = firestoreDb.collection(u'門禁資料').order_by(u'datatime',direction=firestore.Query.DESCENDING).limit(5).get();
+    mainFrame = Frame(root)
+    for (index,doc) in enumerate(docs):
+        #itemFrame = Frame(mainFrame);
         print('uid = {}'.format(doc.get('uid')));
-        Label(itemFrame,text=doc.get('uid'),width=15).pack(side=LEFT,anchor=W);
-        Label(itemFrame,text=doc.get('datatime'),width=20).pack(side=LEFT,anchor=W);
-        itemFrame.pack();
+        #Label(itemFrame,text=doc.get('uid'),width=15).pack(side=LEFT,anchor=W);
+        #Label(itemFrame,text=doc.get('datatime'),width=20).pack(side=LEFT,anchor=W);
+        Label(mainFrame,text=doc.get('uid'),width=20).grid(row=index,column=0,sticky=W);
+        Label(mainFrame,text=doc.get('datatime'),width=20).grid(row=index,column=1,sticky=W);
+        #itemFrame.pack();
     mainFrame.pack();
+    
+    secondFrame = Frame(root);
+    allCarInfo = firestoreDb.collection(u'卡片資訊').get()
+    listbox = Listbox(secondFrame);
+    for carInfo in allCarInfo:
+        listbox.insert('end', carInfo.get(u'carID'));
+    listbox.pack();
+    listbox.bind('<<ListboxSelect>>',onSelect);
+    secondFrame.pack();
+    
+    thirdFrame = Frame(root);
+    thirdFrame.pack();
+    
 
 def rfid_sensor():
         global mainFrame;
@@ -69,6 +104,24 @@ def rfid_sensor():
                 date = datetime.datetime.fromtimestamp(t).strftime("%Y-%m-%d-%H-%M-%S");
                 doc_ref.set({u'datatime':date, u'uid': uidString})
                 
+                #firestore
+                #add Car Infomation
+                
+                
+                
+                carInfoRef = firestoreDb.collection(u'卡片資訊').where(u'carID', u'==' , uidString).get();
+                i = 0
+                for carInfo in carInfoRef:
+                    i += 1;
+                    print(carInfo.get(u'carID'));
+                
+                #i == 0 no this carID
+                if i == 0:
+                    newCar = firestoreDb.collection(u'卡片資訊').document();
+                    newCar.set({u'carID': uidString});
+                
+                
+                
                 buzzer = GPIO.PWM(36,50);
                 buzzer.start(50);
                 time.sleep(0.2);
@@ -83,12 +136,14 @@ def rfid_sensor():
                     mainFrame.pack_forget();
                 
                 mainFrame = Frame(root)
-                for doc in docs:
-                    itemFrame = Frame(mainFrame);
+                for (index,doc) in enumerate(docs):
+                    #itemFrame = Frame(mainFrame);
                     print('uid = {}'.format(doc.get('uid')));
-                    Label(itemFrame,text=doc.get('uid'),width=15).pack(side=LEFT,anchor=W);
-                    Label(itemFrame,text=doc.get('datatime'),width=20).pack(side=LEFT,anchor=W);
-                    itemFrame.pack();
+                    #Label(itemFrame,text=doc.get('uid'),width=15).pack(side=LEFT,anchor=W);
+                    #Label(itemFrame,text=doc.get('datatime'),width=20).pack(side=LEFT,anchor=W);
+                    Label(mainFrame,text=doc.get('uid'),width=20).grid(row=index,column=0,sticky=W);
+                    Label(mainFrame,text=doc.get('uid'),width=20).grid(row=index,column=1,sticky=W);
+                    #itemFrame.pack();
                 mainFrame.pack();
     
         threading.Timer(1,rfid_sensor).start();
@@ -103,7 +158,8 @@ if __name__ == "__main__":
     firestoreDb = firestore.client()
     #tkinter
     root = Tk();
-    mainFrame = None;   
+    mainFrame = None;
+    thirdFrame = None;
     displayWindow();
     
     
