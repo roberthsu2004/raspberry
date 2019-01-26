@@ -35,5 +35,12 @@ Import the class by importing MFRC522 in the top of your script. For more info s
 This code and examples are licensed under the GNU Lesser General Public License 3.0.
 
 ## 說明
+```
 * 可以使的檔案是read1.py
 * 使用的是python2.7
+```
+
+```
+* 可以使用read2.py
+* 使用的是pythone3.0
+```
