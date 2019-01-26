@@ -47,5 +47,6 @@ This code and examples are licensed under the GNU Lesser General Public License 
 
 ```
 * 下面的RC522 RFID的硬體和軟體設定法，可測試接線是否正確。但MFRC522.py 在python3可以使用。但Read.py, 語法是python2.7的，要Read.py可以使用，要更改為3.0版的pirnt();
+
 https://www.raspberrypi-spy.co.uk/2018/02/rc522-rfid-tag-read-raspberry-pi/
 ```
