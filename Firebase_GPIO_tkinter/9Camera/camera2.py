@@ -1,6 +1,14 @@
+'''
+import
+sudo pip3 install Pillow
+
+import ImageTk
+sudo apt-get install python3-pil python3-pil.imagetk
+'''
+
 from tkinter import *
 from picamera import PiCamera
-from PIL import Image, ImageTk  #python3 -m pip install Pillow
+from PIL import Image, ImageTk 
 from time import sleep
 import firebase_admin
 from firebase_admin import credentials
