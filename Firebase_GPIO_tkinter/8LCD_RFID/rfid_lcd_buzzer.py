@@ -1,19 +1,28 @@
+#! usr/bin/python3.5
+
 from MFRC522 import MFRC522
-import signal
 import sys
 import RPi.GPIO as GPIO
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
 from tkinter  import *
+from gpiozero import Buzzer
 
 class App():
     def __init__(self,window):
-        pass;
+        #initial firestore
+        cred = credentials.Certificate('raspberryfirebase-firebase-adminsdk-q4ht6-7d3f9d2d5e.json')
+        firebase_admin.initialize_app(cred)
+        self.firestoreClient = firestore.client()
+        
+        
+        #buzzer init
+        bz = Buzzer(16)
+        bz.beep(on_time=0.5, off_time=0.3, n=1)
 
-'''
-def end_read(signal, frame):
-    print("ctrl+c captured, ending read.");
-    GPIO.cleanup();
-    sys.exit(0);
-'''
+
+
 
 def on_closing():
     print("ctrl+c captured, ending read.");
@@ -22,8 +31,7 @@ def on_closing():
     
 
 if __name__ == "__main__":
-    GPIO.setwarnings(False);
-    #signal.signal(signal.SIGINT, end_read);
+    GPIO.setwarnings(False);    
     root = Tk();
     root.title("RFID_LCD_BUZZER");
     root.option_add("*font",("verdana",18,"bold"));
