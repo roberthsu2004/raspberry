@@ -8,6 +8,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from tkinter  import *
 from gpiozero import Buzzer
+import time
 
 class App():
     def __init__(self,window):
@@ -18,8 +19,14 @@ class App():
         
         
         #buzzer init
-        bz = Buzzer(16)
-        bz.beep(on_time=0.5, off_time=0.3, n=1)
+        #GPIO.setmode(GPIO.BCM);
+        GPIO.setup(16,GPIO.OUT);
+        self.buzzer = GPIO.PWM(16, 100);
+        #self.buzzer.start(50);
+        self.buzzer.start(100);
+        time.sleep(0.3);
+        self.buzzer.stop();
+        
 
 
 
