@@ -7,8 +7,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from tkinter  import *
-from gpiozero import Buzzer
 import time
+#from lcd_display import lcd
 
 class App():
     def __init__(self,window):
@@ -19,9 +19,9 @@ class App():
         
         
         #buzzer init
-        #GPIO.setmode(GPIO.BCM);
-        GPIO.setup(16,GPIO.OUT);
-        self.buzzer = GPIO.PWM(16, 100);
+        GPIO.setmode(GPIO.BOARD);
+        GPIO.setup(36,GPIO.OUT);
+        self.buzzer = GPIO.PWM(36, 100);
         #self.buzzer.start(50);
         self.buzzer.start(100);
         time.sleep(0.3);
