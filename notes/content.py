@@ -7,3 +7,10 @@ print(letters[-1]);
 name = 'Henny';
 name = name.replace('H','P')
 print(name);
+
+print(letters[:]);
+print(letters[20:]);
+print(letters[10:]);
+print(letters[12:15]);
+print(letters[-3:]);
+print(letters[4:20:3]);
