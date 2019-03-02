@@ -1,22 +1,5 @@
-letters = 'abcdefghijklmnopqrstuvwxyz';
-print(letters[0]);
-print(letters[-1]);
-#print(letters[100]);
-#letters[0] = 'c'
-
-name = 'Henny';
-name = name.replace('H','P')
-print(name);
-
-print(letters[:]);
-print(letters[20:]);
-print(letters[10:]);
-print(letters[12:15]);
-print(letters[-3:]);
-print(letters[4:20:3]);
-
-print(len(letters))
-todos = 'get gloves, get mask, give cat vitamins, call ambulance'
-dos = todos.split(',');
-print(dos);
-print(todos.find('cat'));
+print("請計算圓面積");
+r = input("請輸入半徑:");
+floatR = float(r);
+area = 3.1415926 * floatR ** 2;
+print("圓面積為:" + str(area));
