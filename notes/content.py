@@ -1,17 +1,21 @@
-a = 7.52345678903
-print(type(a))
-b = a
-a = 5;
-print(type(a))
-print("a=",a)
-print("b=",b)
+a = 6*7
+print(a);
+a = 6 * 7 * 2 * 3
+print(a)
+a = 9 / 5;
+print(a);
+a = 9 // 5;
+print(a);
+#a = 5 / 0;
+a = 95;
+a = a - 3;
 
-#變數命名
-_a = 12375688979879080989080980989077868;
-_b = 567345465476575687687897980980989089;
-total = _a * _b;
-print("total=",total);
-print("_a",type(_a));
-print(type("hello! world!"))
+a = 95;
+a -= 3;
+print(a);
+print(99 ** 10000);
 
+print(9 % 5);
+
+print( (2 + 3) * 4);
 
