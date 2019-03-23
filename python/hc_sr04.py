@@ -8,5 +8,7 @@ try:
     while True:
         print("run")
         time.sleep(10)
+except KeyboardInterrupt:
+    print("control-c 關閉程式")
 except:
     print("關閉程式")
