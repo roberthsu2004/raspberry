@@ -5,7 +5,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(22,GPIO.OUT)
 GPIO.setup(3,GPIO.IN)
 GPIO.setwarnings(False)
-flashLights = (True,False,True,False)
+
 
 while True:
     #GPIO.output(22,GPIO.HIGH)
