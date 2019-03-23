@@ -45,9 +45,36 @@ del marxes[-1];
 print(marxes)
 
 marxes = ["Groucho", "Chico", "Harpo", "Gummo", "Zeppo"]
+i = 0
+for item in marxes:
+    if 'i' in item:
+        i = i + 1
+    
+
+print(" have",i)
+
 print(marxes[2])
 marxes.remove("Chico")
 print(marxes)
+element1 = marxes.pop(0)
+print(marxes)
+print(element1)
+print(marxes.index('Zeppo'))
+#print(marxes.index('zeppo'))
+print('zeppo' in marxes)
+marxes.append("Abc")
+print(marxes)
+marxes.sort()
+print(marxes)
+print(len(marxes))
+
+a = [2, 1, 3]
+print(sorted(a))
+
+b = a.copy()
+a.append(30)
+print("a",a)
+print("b",b)
 
 
 
