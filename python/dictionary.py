@@ -39,4 +39,5 @@ for (key,value) in pythons.items():
     print(key,value)
 
 birds = pythons.copy()
+#https://blog.everlearn.tw/%E7%95%B6-python-%E9%81%87%E4%B8%8A-raspberry-pi/raspberry-pi-3-model-b-%E8%88%87-hc-sr04-%E8%B6%85%E9%9F%B3%E6%B3%A2%E6%84%9F%E6%B8%AC%E5%99%A8%E4%B9%8B%E6%87%89%E7%94%A8
 
