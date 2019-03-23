@@ -44,3 +44,10 @@ print(marxes)
 del marxes[-1];
 print(marxes)
 
+marxes = ["Groucho", "Chico", "Harpo", "Gummo", "Zeppo"]
+print(marxes[2])
+marxes.remove("Chico")
+print(marxes)
+
+
+
