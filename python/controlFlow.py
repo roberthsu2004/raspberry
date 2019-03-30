@@ -10,7 +10,7 @@ else:
         print("skink")
     else:
         print("human")
-
+'''
 count = 1
 while count <= 5:
     print(count)
@@ -33,5 +33,11 @@ while True:
         continue
     
     print(number, "squared is", number*number);
-    
+'''
+
+for x in range(0,3):
+    print(x)
+
+for x in range(2, -1, -1):
+    print(x)
     
