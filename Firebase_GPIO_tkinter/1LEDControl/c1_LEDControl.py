@@ -2,9 +2,12 @@ from tkinter import *
 from sys import path
 
 def displayWindow(w):
+    buttonText = StringVar()
+    buttonText.set("OPEN")
     mainFrame = Frame(w,borderwidth=2,relief=GROOVE)    
-    Button(mainFrame,text="Press Me",font=("Helvetica", 18, "bold italic")).pack(expand=True,fill=BOTH,padx=40,pady=25);
+    Button(mainFrame,textvariable=buttonText,font=("Helvetica", 18, "bold italic")).pack(expand=True,fill=BOTH,padx=40,pady=25);
     mainFrame.pack(expand=True,fill=BOTH,padx=10,pady=10)
+    buttonText.set("close")
 
 if __name__ == "__main__":
     window = Tk();
