@@ -1,10 +1,11 @@
 from tkinter import *
 from sys import path
 
-
+buttonText = None
 
 
 def displayWindow(w):
+    global buttonText
     buttonText = StringVar()
     buttonText.set("OPEN")
     mainFrame = Frame(w,borderwidth=2,relief=GROOVE)    
@@ -13,7 +14,10 @@ def displayWindow(w):
    
 def userClick():    
     print("user click");
-    print(buttonText.get())
+    if buttonText.get() == "OPEN":
+        buttonText.set("CLOSE")
+    else:
+        buttonText.set("OPEN")
 
 if __name__ == "__main__":
     
