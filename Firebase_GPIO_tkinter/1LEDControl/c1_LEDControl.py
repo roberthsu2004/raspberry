@@ -2,9 +2,8 @@ from tkinter import *
 from sys import path
 
 def displayWindow(w):
-    print("displayWindow");
-    print(type(w))
-    pass;
+    mainFrame = Frame(w,borderwidth=2,relief=GROOVE)
+    mainFrame.pack(padx=10,pady=10)
 
 if __name__ == "__main__":
     window = Tk();
