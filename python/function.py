@@ -22,4 +22,7 @@ do_nothing();
 print(echo('Rumplestiltskin'))
 print(commentary("vilot"));
 print(menu('chardonnay','chicken','cake'));
+print(menu(wine='chardonnay',entree='chicken',dessert='cake'));
+print(menu(entree='chicken',dessert='cake',wine='chardonnay'));
+print(menu('chardonnay',dessert='cake',entree='chicken'));
 
