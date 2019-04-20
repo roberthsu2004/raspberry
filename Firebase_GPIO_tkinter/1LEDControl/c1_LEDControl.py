@@ -1,8 +1,8 @@
 from tkinter import *
-from sys import path
+from gpiozero import LED as LightBolt
 
 buttonText = None
-
+lightBolt = LightBolt(4)
 
 def displayWindow(w):
     global buttonText
@@ -16,8 +16,10 @@ def userClick():
     print("user click");
     if buttonText.get() == "OPEN":
         buttonText.set("CLOSE")
+        lightBolt.off();
     else:
         buttonText.set("OPEN")
+        lightBolt.on();
 
 if __name__ == "__main__":
     
