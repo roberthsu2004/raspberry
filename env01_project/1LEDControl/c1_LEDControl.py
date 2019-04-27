@@ -16,12 +16,13 @@ def displayWindow(w):
     mainFrame.pack(expand=True,fill=BOTH,padx=10,pady=10)
     
 def setupFirebaseDb():
+    global led25Ref
     cred = credentials.Certificate('raspberryfirebase-firebase-adminsdk-q4ht6-7d3f9d2d5e.json')
     firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://raspberryfirebase.firebaseio.com/'
     })
-    ref = db.reference('raspberrypi/LCD')
-    print(ref.get())
+    led25Ref = db.reference('raspberrypi/LED_Control/LED25')
+    print(led25Ref.get())
 
    
 def userClick():    
@@ -29,12 +30,15 @@ def userClick():
     if buttonText.get() == "OPEN":
         buttonText.set("CLOSE")
         lightBolt.off();
+        led25Ref.set("CLOSE")
+        
     else:
         buttonText.set("OPEN")
         lightBolt.on();
+        led25Ref.set("OPEN")
 
 if __name__ == "__main__":
-    
+    led25Ref = None
     window = Tk();
     window.title("LED Control")
     window.geometry("300x200")
