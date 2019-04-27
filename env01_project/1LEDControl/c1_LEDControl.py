@@ -22,7 +22,16 @@ def setupFirebaseDb():
     'databaseURL': 'https://raspberryfirebase.firebaseio.com/'
     })
     led25Ref = db.reference('raspberrypi/LED_Control/LED25')
-    print(led25Ref.get())
+    led25Ref.listen(firebaseContentChange)
+
+def firebaseContentChange(event):
+    print("content change")
+    print("Event type:{},Event path:{}".format(event.data,event.path));
+    if event.data == "CLOSE":
+        lightBolt.off();
+    else:
+        lightBolt.on();
+        
 
    
 def userClick():    
