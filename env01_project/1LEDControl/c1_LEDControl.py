@@ -14,6 +14,15 @@ def displayWindow(w):
     mainFrame = Frame(w,borderwidth=2,relief=GROOVE)    
     Button(mainFrame,textvariable=buttonText,font=("Helvetica", 18, "bold italic"),command=userClick).pack(expand=True,fill=BOTH,padx=40,pady=25);
     mainFrame.pack(expand=True,fill=BOTH,padx=10,pady=10)
+    
+def setupFirebaseDb():
+    cred = credentials.Certificate('raspberryfirebase-firebase-adminsdk-q4ht6-7d3f9d2d5e.json')
+    firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://raspberryfirebase.firebaseio.com/'
+    })
+    ref = db.reference('raspberrypi/LCD')
+    print(ref.get())
+
    
 def userClick():    
     print("user click");
@@ -29,6 +38,7 @@ if __name__ == "__main__":
     window = Tk();
     window.title("LED Control")
     window.geometry("300x200")
+    setupFirebaseDb()
     displayWindow(window);
    
     window.mainloop();
