@@ -5,7 +5,7 @@ from firebase_admin import credentials
 from firebase_admin import db
 
 buttonText = None
-#lightBolt = LightBolt(4)
+lightBolt = LightBolt(25)
 
 def displayWindow(w):
     global buttonText
@@ -28,10 +28,10 @@ def userClick():
     print("user click");
     if buttonText.get() == "OPEN":
         buttonText.set("CLOSE")
-        #lightBolt.off();
+        lightBolt.off();
     else:
         buttonText.set("OPEN")
-        #lightBolt.on();
+        lightBolt.on();
 
 if __name__ == "__main__":
     
