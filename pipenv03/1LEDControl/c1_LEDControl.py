@@ -30,8 +30,10 @@ def firebaseContentChange(event):
     print("content change")
     print("Event type:{},Event path:{}".format(event.data,event.path));
     if event.data == "CLOSE":
+        buttonText.set("OPEN")
         lightBolt.off();
     else:
+        buttonText.set("CLOSE")
         lightBolt.on();
         
 
@@ -39,14 +41,14 @@ def firebaseContentChange(event):
 def userClick():    
     print("user click");
     if buttonText.get() == "OPEN":
-        buttonText.set("CLOSE")
+        #buttonText.set("CLOSE")
         #lightBolt.off();
-        led25Ref.set("CLOSE")
+        led25Ref.set("OPEN")
         
     else:
-        buttonText.set("OPEN")
+        #buttonText.set("OPEN")
         #lightBolt.on();
-        led25Ref.set("OPEN")
+        led25Ref.set("CLOSE")
 
 if __name__ == "__main__":
     led25Ref = None
