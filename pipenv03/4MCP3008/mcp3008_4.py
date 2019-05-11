@@ -1,4 +1,5 @@
 from tkinter import *
+from gpiozero import MCP3008
 
 class GUI:
     def __init__(self,w):
@@ -12,6 +13,16 @@ class GUI:
         Entry(mainFrame, width= 25, state= DISABLED, textvariable=lightnessText).grid(row=1,column=1,sticky=W,padx=5,pady=20)
         lightnessText.set("456.789")
         mainFrame.pack(padx=10,pady=10)
+        self.autoUpdate()
+    
+    def autoUpdate(self):
+        lightness = MCP3008(channel=7)
+        temperature = MCP3008(channel=6)
+        
+        lightnessValue = lightness.value * 1000;
+        temperatureValue = temperature * 3.3 * 100
+        print(lightnessValue)
+        print(temperatureValue)
 
 if __name__ == "__main__":
     window = Tk()
