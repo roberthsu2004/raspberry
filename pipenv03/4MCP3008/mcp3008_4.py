@@ -1,9 +1,19 @@
 from tkinter import *
 from gpiozero import MCP3008
 from threading import Timer
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 
 class GUI:
     def __init__(self,w):
+        cred = credentials.Certificate('raspberryfirebase-firebase-adminsdk-q4ht6-7d3f9d2d5e.json')
+        firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://raspberryfirebase.firebaseio.com/'
+        })
+        
+        self.mcp3008Ref = db.reference('raspberrypi/MCP3008')
+        
         self.lightness = MCP3008(channel=7)
         self.temperature = MCP3008(channel=6)
         
@@ -23,8 +33,12 @@ class GUI:
         lightnessValue = self.lightness.value * 1000;
         temperatureValue = self.temperature.value * 3.3 * 100
         self.temperatureText.set("{:.2f}".format(temperatureValue))
-        self.lightnessText.set("{:.3f}".format(lightnessValue))
-        Timer(1,self.autoUpdate).start()
+        self.lightnessText.set("{:}".format(lightnessValue))
+        self.mcp3008Ref.update({
+            'brightness':lightnessValue,
+            'temperature':temperatureValue
+            });
+        Timer(5,self.autoUpdate).start()
 
 if __name__ == "__main__":
     window = Tk()
