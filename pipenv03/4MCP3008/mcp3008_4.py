@@ -1,5 +1,6 @@
 from tkinter import *
 from gpiozero import MCP3008
+from threading import Timer
 
 class GUI:
     def __init__(self,w):
@@ -20,9 +21,10 @@ class GUI:
         temperature = MCP3008(channel=6)
         
         lightnessValue = lightness.value * 1000;
-        temperatureValue = temperature * 3.3 * 100
+        temperatureValue = temperature.value * 3.3 * 100
         print(lightnessValue)
         print(temperatureValue)
+        Timer(1,self.autoUpdate).start()
 
 if __name__ == "__main__":
     window = Tk()

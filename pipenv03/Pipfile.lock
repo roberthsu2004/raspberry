@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f35c7fd24684e6a282648de694cd187c1df58b136e0b074c83a16bab897741ef"
+            "sha256": "a07c9f5080bc41401967b0cdd0856fafc84e10078a4fb4b25cf41c78c1c8fe61"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -264,6 +264,9 @@
                 "sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
             ],
             "version": "==1.12.0"
+        },
+        "spidev": {
+            "file": "https://github.com/cloudformdesign/spidev/archive/master.zip"
         },
         "urllib3": {
             "hashes": [

@@ -9,6 +9,7 @@ verify_ssl = true
 gpiozero = "*"
 firebase-admin = "*"
 rpi-gpio = "*"
+spidev = {file = "https://github.com/cloudformdesign/spidev/archive/master.zip"}
 
 [requires]
 python_version = "3.5"
