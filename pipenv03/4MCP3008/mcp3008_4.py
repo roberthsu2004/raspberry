@@ -4,6 +4,9 @@ from threading import Timer
 
 class GUI:
     def __init__(self,w):
+        self.lightness = MCP3008(channel=7)
+        self.temperature = MCP3008(channel=6)
+        
         temperatureText = StringVar()
         lightnessText = StringVar();
         mainFrame = Frame(w,relief=GROOVE, borderwidth=2)
@@ -17,11 +20,10 @@ class GUI:
         self.autoUpdate()
     
     def autoUpdate(self):
-        lightness = MCP3008(channel=7)
-        temperature = MCP3008(channel=6)
+       
         
-        lightnessValue = lightness.value * 1000;
-        temperatureValue = temperature.value * 3.3 * 100
+        lightnessValue = self.lightness.value * 1000;
+        temperatureValue = self.temperature.value * 3.3 * 100
         print(lightnessValue)
         print(temperatureValue)
         Timer(1,self.autoUpdate).start()
